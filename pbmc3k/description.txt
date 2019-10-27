@@ -1,0 +1,13 @@
+原来有2700 cells 和 13714 genes
+做了qulity control 和 gene filter 之后只有2638 cells 和 2000 genes
+
+共有一下9个clusters
+"Naive CD4 T" 697 cells
+"Memory CD4 T" 483 cells
+"CD14+ Mono"   480 cells
+"B"            344 cells
+"CD8 T"        271 cells 
+"FCGR3A+ Mono" 162 cells
+"NK"           155 cells 
+"DC"           32 cells 
+"Platelet"     14 cells 
