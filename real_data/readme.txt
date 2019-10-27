@@ -1,4 +1,4 @@
-Drag real doamins here and name them "real_domain1.txt" and "real_doamin2.txt".
+Drag real doamins here and name them "real_domain1.txt" and "real_domain2.txt".
 
 The columns are genes and rows are cells.
 
