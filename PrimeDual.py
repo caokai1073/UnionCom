@@ -8,7 +8,7 @@ import scipy.sparse as sp
 from sklearn.neighbors import NearestNeighbors, KNeighborsClassifier
 
 ##### use CPU
-def cor_pairs_CPU(Kx, Kz, N, params):
+def cor_pairs_CPU(Kx, Kz, N, params, p1, p2):
 
 	Kx = Kx / N
 	Kz = Kz / N
@@ -20,7 +20,7 @@ def cor_pairs_CPU(Kx, Kz, N, params):
 	Lambda = np.zeros((n,1))
 	Mu = np.zeros((m,1))
 	S = np.zeros((n,1))
-	a = np.sqrt(params.p2/params.p1)
+	a = np.sqrt(p2/p1)
 	for i in range(params.epoch_pd):
 		grad = 2*np.dot(F, np.dot(Kz, np.dot(F.T, np.dot(F, Kz.T)))) \
 		+ 2*np.dot(F, np.dot(Kz.T, np.dot(F.T, np.dot(F, Kz)))) \
@@ -47,13 +47,13 @@ def cor_pairs_CPU(Kx, Kz, N, params):
 		Lambda = Lambda + params.epsilon*(np.dot(F.T, Im) - In + S)
 
 		#### if scaling factor a changes too fast, we can delay the update of speed.
-		# if i>=10000:
-		# 	grad_a = 2*a*np.dot(Kx.T, Kx) - np.dot(Kx.T, np.dot(F, np.dot(Kz, F.T))) - np.dot(F, np.dot(Kz.T, np.dot(F.T, Kx)))
-		# 	a = a - params.epsilon*grad_a
-		# 	a = np.mean(a)
+		if i>=params.delay:
+			grad_a = 2*a*np.dot(Kx.T, Kx) - np.dot(Kx.T, np.dot(F, np.dot(Kz, F.T))) - np.dot(F, np.dot(Kz.T, np.dot(F.T, Kx)))
+			a = a - params.epsilon*grad_a
+			a = np.mean(a)
 
-		a = torch.trace(torch.mm(torch.t(Kx), torch.mm(torch.mm(F, Kz), torch.t(F)))) / \
-			torch.trace(torch.mm(torch.t(Kx), Kx))
+		# a = torch.trace(torch.mm(torch.t(Kx), torch.mm(torch.mm(F, Kz), torch.t(F)))) / \
+			# torch.trace(torch.mm(torch.t(Kx), Kx))
 		# if a > 2*np.sqrt(params.p2/params.p1):
 		# 	a = 2*np.sqrt(params.p2/params.p1)
 		# if a < 0.5*np.sqrt(params.p2/params.p1):
@@ -124,7 +124,7 @@ def cor_pairs_GPU(Kx, Kz, N, params, p1, p2, device):
 
 		norm2 = torch.norm(a*Kx - torch.mm(torch.mm(F, Kz), torch.t(F)))
 		# if i<20000:
-		if (i+1) % 100 == 0:
+		if (i+1) % 500 == 0:
 			print("[{:d}/{:d}]".format(i,params.epoch_pd), norm2.data.item(), a)
 		# else:
 		# 	print("[{:d}/{:d}]".format(i,params.epoch_pd), norm2.data.item(), a.data.item())

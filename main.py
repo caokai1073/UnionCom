@@ -21,14 +21,14 @@ parser.add_argument('--epsilon',      type=float,   default='0.0003',   help="le
 parser.add_argument('--epsilon_a',    type=float,   default='0.0003',   help="learning rate of alpha")
 parser.add_argument('--lr',           type=float,   default='0.0005',   help="learning rate of DNN")
 parser.add_argument('--batch_size',   type=int,     default='50',       help="batch size of DNN")
-parser.add_argument('--beta1',        type=float,   default='0.1',        help="beta_1 in loss function of DNN")
+parser.add_argument('--beta1',        type=float,   default='0',      help="beta_1 in loss function of DNN")
 parser.add_argument('--beta2',        type=float,   default='1',        help="beta_2 in loss function of DNN")
 parser.add_argument('--rho',          type=float,   default='10',       help="parameter of augumented larangian function")
 parser.add_argument('--log_step',     type=int,     default='1',        help="log step of DNN")
 parser.add_argument('--manual_seed',  type=int,     default='8888',     help="random seed")
-parser.add_argument('--simu',         type=int,     default='2',        help="which simulation you want, you can choose {1,2,3}")
-parser.add_argument('--isRealData',   type=int,     default='1',        help="choose simulated data or real data")
-parser.add_argument('--delay',        type=int,     default='1500000',   help="delay the update of alpha for numerical stability")
+parser.add_argument('--simu',         type=int,     default='1',        help="which simulation you want, you can choose {1,2,3}")
+parser.add_argument('--isRealData',   type=int,     default='0',        help="choose simulated data or real data")
+parser.add_argument('--delay',        type=int,     default='1000000', help="delay the update of alpha for numerical stability")
 params = parser.parse_args()
 
 init_random_seed(params.manual_seed)
@@ -73,14 +73,14 @@ if params.isRealData == 0:
 		n5 = 60
 		n6 = 60
 		N = n1+n2+n3+n4+n5+n6
-		# type1 = np.loadtxt("./simu3/type1.txt") 
-		# type2 = np.loadtxt("./simu3/type2.txt")
-		# domain1 = np.loadtxt("./simu3/domain1.txt")
-		# domain2 = np.loadtxt("./simu3/domain2.txt")
-		# domain2_0 = np.loadtxt("./simu3/domain2_0.txt")
-		data1, data2, data2_0, permutation, type1, type2 = cell_circle(n1,n2,n3,n4,n5,n6)
-		domain1 = project_high_dim_dropout(data1, 2, 1000, fraction=0)
-		domain2, domain2_0 = project_high_dim_dropout(data2, 2, 500, data2_0, flag=1, fraction=0)
+		type1 = np.loadtxt("./simu3/type1.txt") 
+		type2 = np.loadtxt("./simu3/type2.txt")
+		domain1 = np.loadtxt("./simu3/domain1.txt")
+		domain2 = np.loadtxt("./simu3/domain2.txt")
+		domain2_0 = np.loadtxt("./simu3/domain2_0.txt")
+		# data1, data2, data2_0, permutation, type1, type2 = cell_circle(n1,n2,n3,n4,n5,n6)
+		# domain1 = project_high_dim_dropout(data1, 2, 1000, fraction=0)
+		# domain2, domain2_0 = project_high_dim_dropout(data2, 2, 500, data2_0, flag=1, fraction=0)
 	else:
 		print("error: input correct simu number!")
 
@@ -103,6 +103,9 @@ else:
 	type1 = np.loadtxt("./real_data/type1.txt")
 	type2 = np.loadtxt("./real_data/type2.txt")
 	domain2 = domain2_0
+	# random_choice = random.sample(range(0,498), 100)
+	# domain1 = domain1[random_choice]
+	# type1 = type1[random_choice]
 
 type1 = type1.astype(np.int)
 type2 = type2.astype(np.int)
@@ -128,17 +131,16 @@ np.savetxt("./result/geo_dis2.txt", geo_dis2)
 P_joint1 = p_joint(domain1, kmin1)
 P_joint2 = p_joint(domain2, kmin2)
 
-# F, cor_pairs = cor_pairs_CPU(geo_dis1, geo_dis2, N, params)
+# F, cor_pairs = cor_pairs_CPU(geo_dis1, geo_dis2, N, params, col1, col2,)
 F, cor_pairs = cor_pairs_GPU(geo_dis1, geo_dis2, N, params, col1, col2, device)
 cor_pairs = cor_pairs.astype(np.int)
 
 np.savetxt("./result/correspondence_F.txt", F)
 np.savetxt("./result/cor_pairs.txt", cor_pairs)
 
-#cor_pairs = np.loadtxt("./result/cor_pairs.txt")
-#cor_pairs = cor_pairs.astype(np.int)
+# cor_pairs = np.loadtxt("./result/cor_pairs.txt")
+# cor_pairs = cor_pairs.astype(np.int)
 # print(cor_pairs)
-
 
 net = Project()
 Project = init_model(net, restore = None)
@@ -166,39 +168,17 @@ np.savetxt('./result/new_data2.txt',data_2)
 # data_1 = np.loadtxt("./result/new_data1.txt")
 # data_2 = np.loadtxt("./result/new_data2.txt")
 
-fraction = align_fraction(data_1, data_2, params)
-print(fraction)
+if params.isRealData == 0:
+	fraction = align_fraction(data_1, data_2, params)
+	print("average fraction:")
+	print(fraction)
 
-# acc = label_transfer_accuracy(row1, row2, type1, type2, cor_pairs)
 acc = transfer_accuracy(data_1, data_2, type1, type2)
+print("label transfer accuracy:")
 print(acc)
-# fig = plt.figure()
-# ax = Axes3D(fig)
 
-# 	styles1 = ['r^', 'g^', 'b^', 'y^'] 
-# 	styles2 = ['rx', 'gx', 'bx', 'yx']
-# 	for i in range(4):
-# 		index1 = np.where(type1==i)
-# 		plt.plot(data_1[index1,0], data_1[index1,1], styles1[i], alpha=0.5)
-# 	fig = plt.figure()
-# 	for i in range(4):
-# 		index2 = np.where(type2==i)
-# 		plt.plot(data_2[index2,0], data_2[index2,1], styles2[i], alpha=0.5)
-# 	plt.show()
-		
-# 	fig = plt.figure()
-# 	# ax = Axes3D(fig)
-# 	for i in range(3):
-# 		index2 = np.where(type2==i)
-# 		plt.plot(data_2[index2,0], data_2[index2,1], styles2[i], alpha=0.9)
-	# fig = plt.figure()
-	# ax = Axes3D(fig)
-	# for i in range(9):
-	# 	index2 = np.where(type2==i)
-	# 	ax.scatter(data_2[index2,0], data_2[index2,1], data_2[index2,2], styles2[i], alpha=0.8)
-	# ax.plot(data_1[:,0], data_1[:,1], data_1[:,2], 'r^', alpha=0.8)
-	# ax.plot(data_2[:,0], data_2[:,1], data_2[:,2], 'g*', alpha=0.8)
-	# plt.show()
+
+
 
 
 

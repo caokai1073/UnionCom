@@ -36,10 +36,9 @@ def train(Project, params, domain1, domain2, P_joint1, P_joint2, cor_pairs, devi
 			
 			data_1 = domain1[random_choice1]
 			data_2 = domain2[random_choice2]
-			data_2_align = domain2[cor_pairs[random_choice1]]
+			
 			data_1 = torch.from_numpy(data_1).to(device).float()
 			data_2 = torch.from_numpy(data_2).to(device).float()
-			data_2_align = torch.from_numpy(data_2_align).to(device).float()
 
 			P_tmp1 = torch.zeros([params.batch_size, params.batch_size]).to(device)
 			P_tmp2 = torch.zeros([params.batch_size, params.batch_size]).to(device)
@@ -51,6 +50,9 @@ def train(Project, params, domain1, domain2, P_joint1, P_joint2, cor_pairs, devi
 
 			low_dim_data1 = Project(data_1, 1)
 			low_dim_data2 = Project(data_2, 2)
+
+			data_2_align = domain2[cor_pairs[random_choice1]]
+			data_2_align = torch.from_numpy(data_2_align).to(device).float()
 			low_dim_data2_align = Project(data_2_align, 2)
 			feature_loss = c_mse(low_dim_data1, low_dim_data2_align)
 
