@@ -12,23 +12,24 @@ from PrimeDual import *
 import matplotlib
 from matplotlib import pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
+from sklearn.manifold import TSNE
 import argparse
 
 parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-parser.add_argument('--epoch_DNN',    type=int,     default='500',      help="epoches of DNN")
-parser.add_argument('--epoch_pd',     type=int,     default='150000',   help="epoches of prime-dual algorithm")
-parser.add_argument('--epsilon',      type=float,   default='0.0003',   help="learning rate of F")
-parser.add_argument('--epsilon_a',    type=float,   default='0.0003',   help="learning rate of alpha")
+parser.add_argument('--epoch_DNN',    type=int,     default='800',      help="epoches of DNN")
+parser.add_argument('--epoch_pd',     type=int,     default='200000',   help="epoches of prime-dual algorithm")
+parser.add_argument('--epsilon',      type=float,   default='0.0002',   help="learning rate of F")
+parser.add_argument('--epsilon_a',    type=float,   default='0.0002',   help="learning rate of alpha")
 parser.add_argument('--lr',           type=float,   default='0.0005',   help="learning rate of DNN")
 parser.add_argument('--batch_size',   type=int,     default='50',       help="batch size of DNN")
-parser.add_argument('--beta1',        type=float,   default='0',      help="beta_1 in loss function of DNN")
+parser.add_argument('--beta1',        type=float,   default='1',      help="beta_1 in loss function of DNN")
 parser.add_argument('--beta2',        type=float,   default='1',        help="beta_2 in loss function of DNN")
 parser.add_argument('--rho',          type=float,   default='10',       help="parameter of augumented larangian function")
 parser.add_argument('--log_step',     type=int,     default='1',        help="log step of DNN")
 parser.add_argument('--manual_seed',  type=int,     default='8888',     help="random seed")
 parser.add_argument('--simu',         type=int,     default='1',        help="which simulation you want, you can choose {1,2,3}")
 parser.add_argument('--isRealData',   type=int,     default='0',        help="choose simulated data or real data")
-parser.add_argument('--delay',        type=int,     default='1000000', help="delay the update of alpha for numerical stability")
+parser.add_argument('--delay',        type=int,     default='10000', help="delay the update of alpha for numerical stability")
 params = parser.parse_args()
 
 init_random_seed(params.manual_seed)
@@ -124,6 +125,8 @@ domain2_0 = (domain2_0 - np.mean(domain2_0))/ np.std(domain2_0)
 
 geo_dis1, kmin1 = geodesic_distances(domain1)
 geo_dis2, kmin2 = geodesic_distances(domain2)
+# geo_dis1, kmin1 = euclidean_distances(domain1)
+# geo_dis2, kmin2 = euclidean_distances(domain2)
 print(kmin1, kmin2)
 np.savetxt("./result/geo_dis1.txt", geo_dis1)
 np.savetxt("./result/geo_dis2.txt", geo_dis2)
@@ -140,7 +143,7 @@ np.savetxt("./result/cor_pairs.txt", cor_pairs)
 
 # cor_pairs = np.loadtxt("./result/cor_pairs.txt")
 # cor_pairs = cor_pairs.astype(np.int)
-# print(cor_pairs)
+print(cor_pairs)
 
 net = Project()
 Project = init_model(net, restore = None)
@@ -168,16 +171,43 @@ np.savetxt('./result/new_data2.txt',data_2)
 # data_1 = np.loadtxt("./result/new_data1.txt")
 # data_2 = np.loadtxt("./result/new_data2.txt")
 
-if params.isRealData == 0:
-	fraction = align_fraction(data_1, data_2, params)
-	print("average fraction:")
-	print(fraction)
+# if params.isRealData == 0:
+fraction = align_fraction(data_1, data_2, params)
+print("average fraction:")
+print(fraction)
 
 acc = transfer_accuracy(data_1, data_2, type1, type2)
 print("label transfer accuracy:")
 print(acc)
+data = np.vstack((data_1, data_2))
+print(np.shape(data))
+# embedding = TSNE(n_components=2).fit_transform(data)
+# embedding2 = TSNE(n_components=2).fit_transform(data_2)
+fig = plt.figure()
+for i in range(177):
+	
+	# if i<177:
+	# 	# if i<50:
+	color = i/177
+	# 	# 	plt.scatter(embedding[i,0], embedding[i,1], c=[1,0,0])
+	# 	# else:
+	plt.scatter(data_1[i,0],data_2[i,1],c=[color,0,0])
+	# else:
+		# if i<227:
+		# color = (i-177)/177
+		# 	plt.scatter(embedding[i,0], embedding[i,1], c=[0,1,0])
+		# else:
+	plt.scatter(data_2[i,0],data_2[i,1],c=[0,color,0])
 
+# fig = plt.figure()
+# for i in range(row2):
+# 	color = i/row2
+# 	# if i<5:
+# 	# 	plt.scatter(embedding2[i,0], embedding2[i,1], c=[0,1,1])
+# 	# else:
+# 	plt.scatter(embedding2[i,0], embedding2[i,1], c=[color,0,0])
 
+plt.show()
 
 
 
