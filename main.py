@@ -17,9 +17,9 @@ import argparse
 
 parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 parser.add_argument('--epoch_DNN',    type=int,     default='800',      help="epoches of DNN")
-parser.add_argument('--epoch_pd',     type=int,     default='200000',   help="epoches of prime-dual algorithm")
-parser.add_argument('--epsilon',      type=float,   default='0.0002',   help="learning rate of F")
-parser.add_argument('--epsilon_a',    type=float,   default='0.0002',   help="learning rate of alpha")
+parser.add_argument('--epoch_pd',     type=int,     default='100000',   help="epoches of prime-dual algorithm")
+parser.add_argument('--epsilon',      type=float,   default='0.0003',   help="learning rate of F")
+parser.add_argument('--epsilon_a',    type=float,   default='0.0003',   help="learning rate of alpha")
 parser.add_argument('--lr',           type=float,   default='0.0005',   help="learning rate of DNN")
 parser.add_argument('--batch_size',   type=int,     default='50',       help="batch size of DNN")
 parser.add_argument('--beta1',        type=float,   default='1',      help="beta_1 in loss function of DNN")
@@ -104,9 +104,6 @@ else:
 	type1 = np.loadtxt("./real_data/type1.txt")
 	type2 = np.loadtxt("./real_data/type2.txt")
 	domain2 = domain2_0
-	# random_choice = random.sample(range(0,498), 100)
-	# domain1 = domain1[random_choice]
-	# type1 = type1[random_choice]
 
 type1 = type1.astype(np.int)
 type2 = type2.astype(np.int)
@@ -179,48 +176,3 @@ print(fraction)
 acc = transfer_accuracy(data_1, data_2, type1, type2)
 print("label transfer accuracy:")
 print(acc)
-data = np.vstack((data_1, data_2))
-print(np.shape(data))
-# embedding = TSNE(n_components=2).fit_transform(data)
-# embedding2 = TSNE(n_components=2).fit_transform(data_2)
-fig = plt.figure()
-for i in range(177):
-	
-	# if i<177:
-	# 	# if i<50:
-	color = i/177
-	# 	# 	plt.scatter(embedding[i,0], embedding[i,1], c=[1,0,0])
-	# 	# else:
-	plt.scatter(data_1[i,0],data_2[i,1],c=[color,0,0])
-	# else:
-		# if i<227:
-		# color = (i-177)/177
-		# 	plt.scatter(embedding[i,0], embedding[i,1], c=[0,1,0])
-		# else:
-	plt.scatter(data_2[i,0],data_2[i,1],c=[0,color,0])
-
-# fig = plt.figure()
-# for i in range(row2):
-# 	color = i/row2
-# 	# if i<5:
-# 	# 	plt.scatter(embedding2[i,0], embedding2[i,1], c=[0,1,1])
-# 	# else:
-# 	plt.scatter(embedding2[i,0], embedding2[i,1], c=[color,0,0])
-
-plt.show()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
