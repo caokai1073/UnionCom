@@ -25,7 +25,7 @@ The input number of neural netowrk of `self.feature1` and `self.feature2` in  mo
 
 The input number of neural netowrk of `self.feature1` and `self.feature2` in  model.py should be 1000 and 500.
 
-Note that before you run real world datasets, you should move the corresponding `real_domain1.txt`, `real_domain2.txt`, `type1.txt` and `type2.txt` into real_data and change the input number of deep neural network.
+### Note that before you run real world datasets, you should move the corresponding `real_domain1.txt`, `real_domain2.txt`, `type1.txt` and `type2.txt` into real_data and change the input number of deep neural network.
 ## HSCs
 `python3 main.py --isRealData 1 --epoch_pd 60000 --delay 0`
 
