@@ -1,6 +1,6 @@
 # DUAE
 
-simu1: python3 main.py --isRealData 0 --simu 1 --epoch_pd 60000 --delay 10000
+＃ simu1: python3 main.py --isRealData 0 --simu 1 --epoch_pd 60000 --delay 10000
 
 simu1: The input number of neural netowrk of self.feature1 and self.feature2 in  model.py should be 1000 and 500.
 
