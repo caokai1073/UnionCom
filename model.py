@@ -36,7 +36,7 @@ class Project(nn.Module):
 		# 	nn.LeakyReLU(0.1, True),
 		# )
 		self.feature1 = nn.Sequential(
-			nn.Linear(1446,10000),
+			nn.Linear(1000,10000),
 			nn.BatchNorm1d(10000),
 			nn.LeakyReLU(0.1, True),
 			nn.Linear(10000,5000),
@@ -51,7 +51,7 @@ class Project(nn.Module):
 		)
 
 		self.feature2 = nn.Sequential(
-			nn.Linear(1446,10000),
+			nn.Linear(500,10000),
 			nn.BatchNorm1d(10000),
 			nn.LeakyReLU(0.1, True),
 			nn.Linear(10000,5000),
