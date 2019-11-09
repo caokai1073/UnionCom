@@ -112,10 +112,10 @@ def p_joint(X, target_perplexity):
     P = p_conditional_to_joint(p_conditional)
     return P
 
-def q_tsne(Y):
+def q_tsne(Y):	
 	distances = neg_squared_euc_dists(Y)
 	inv_distances = np.power(1. - distances, -1)
-	np.fill_diagonal(inv_distances, 0)
+	np.fill_diagonal(inv_distances, 0)	
 	return inv_distances / np.sum(inv_distances)
 
 
@@ -123,7 +123,6 @@ def w_pos(X, target_perplexity):
     distances = neg_squared_euc_dists(X)
     sigmas = find_optimal_sigmas(distances, target_perplexity)
     two_sig_sq = 2. * np.square(sigmas.reshape((-1, 1)))
-    #print(sigmas)
     return np.exp(distances / two_sig_sq)
 
 def w_neg(X):
@@ -145,16 +144,13 @@ def KNN(data, k):
         sqDistances = np.sort(sqDistances)
         sqDistances = sqDistances**0.5
         Neighber_dis[i] = sqDistances[1:k+1]
-    # print(sqDistances)
-    
+   
     return AdjMatrix, Neighber_dis
 
 def geodesic_distances(X):
 	kmin = 5
 	nbrs = NearestNeighbors(n_neighbors=kmin, metric='euclidean').fit(X)
 	# distances, indices = nbrs.kneighbors(X)
-	# print(indices)
-	# print(distances)
 	knn = nbrs.kneighbors_graph(X, mode='distance')
 	connected_components = sp.csgraph.connected_components(knn, directed=False)[0]
 	while connected_components is not 1:
@@ -164,31 +160,4 @@ def geodesic_distances(X):
 		connected_components = sp.csgraph.connected_components(knn, directed=False)[0]
 
 	dist = sp.csgraph.dijkstra(knn, directed=False)
-	#print(kmin)
-	# print(knn)
 	return dist, kmin
-
-
-
-
-# def KNN(data, k):
-#     row, col = np.shape(data)
-#     AdjMatrix = np.zeros((row, k))
-#     Neighber_dis = np.zeros((row, k))
-#     for i in range(row):
-#         diffMat = np.tile(data[i], (row,1)) - data
-#         sqDiffMat = diffMat**2
-#         sqDistances = sqDiffMat.sum(axis=1)
-        
-#         NearestN = np.argsort(sqDistances)[:k+1]
-#         AdjMatrix[i]=NearestN[1:k+1]
-#         AdjMatrix = AdjMatrix.astype(int)
-
-#         sqDistances = np.sort(sqDistances)
-#         sqDistances = sqDistances**0.5
-#         Neighber_dis[i] = sqDistances[1:k+1]
-#     # print(sqDistances)
-#     # print(AdjMatrix)
-#     # print(Neighber_dis)
-    
-#     return AdjMatrix, Neighber_dis
