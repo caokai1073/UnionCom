@@ -28,18 +28,11 @@ def cor_pairs_CPU(Kx, Kz, N, params, p1, p2):
 		+ np.dot(Im, Lambda.T) + params.rho*(np.dot(np.dot(F, In), In.T) - np.dot(Im, In.T) \
 		+ np.dot(np.dot(Im, Im.T), F) + np.dot(Im, (S-In).T))
 		F_tmp = F - grad
-		# for j in range(m):
-		# 	for k in range(n):
-		# 		if F_tmp[j,k]<0:
-		# 			F_tmp[j,k]=0
 		F_tmp[F_tmp<0]=0
 		F = (1-params.epsilon)*F + params.epsilon*F_tmp
 
 		grad_s = Lambda + params.rho*(np.dot(F.T, Im) - In + S)
 		s_tmp = S - grad_s
-		# for j in  range(n):
-		# 	if s_tmp[j,0]<0:
-		# 		s_tmp[j,0]=0
 		s_tmp[s_tmp<0]=0
 		S = (1-params.epsilon)*S + params.epsilon*s_tmp
 
@@ -87,9 +80,7 @@ def cor_pairs_GPU(Kx, Kz, N, params, p1, p2, device):
 	S = np.zeros((n,1))
 	S = torch.from_numpy(S).float().to(device)
 	a = np.sqrt(p2/p1)
-	# a = torch.from_numpy(a).float().to(device)
 
-	# print("1111111111111111111")
 	for i in range(params.epoch_pd):
 		grad = 2*torch.mm(F, torch.mm(Kz, torch.mm(torch.t(F), torch.mm(F, torch.t(Kz))))) \
 		+ 2*torch.mm(F, torch.mm(torch.t(Kz), torch.mm(torch.t(F), torch.mm(F, Kz)))) \
@@ -106,9 +97,6 @@ def cor_pairs_GPU(Kx, Kz, N, params, p1, p2, device):
 		s_tmp = S - grad_s
 		s_tmp[s_tmp<0]=0
 		S = (1-params.epsilon)*S + params.epsilon*s_tmp
-		# S = S - params.epsilon*grad_s
-		# S[S<0]=0
-
 		Mu = Mu + params.epsilon*(torch.mm(F,In) - Im)
 		Lambda = Lambda + params.epsilon*(torch.mm(torch.t(F), Im) - In + S)
 
@@ -118,16 +106,13 @@ def cor_pairs_GPU(Kx, Kz, N, params, p1, p2, device):
 			torch.mm(F, torch.mm(torch.t(Kz), torch.mm(torch.t(F), Kx)))
 			a = a - params.epsilon_a*grad_a
 			a = torch.mean(a).to(device)
-		# if i>=200000:
+		# if i>=params.delay:
 		# 	a = torch.trace(torch.mm(torch.t(Kx), torch.mm(torch.mm(F, Kz), torch.t(F)))) / \
 		# 		torch.trace(torch.mm(torch.t(Kx), Kx))
 
 		norm2 = torch.norm(a*Kx - torch.mm(torch.mm(F, Kz), torch.t(F)))
-		# if i<20000:
 		if (i+1) % 500 == 0:
 			print("[{:d}/{:d}]".format(i,params.epoch_pd), norm2.data.item(), a)
-		# else:
-		# 	print("[{:d}/{:d}]".format(i,params.epoch_pd), norm2.data.item(), a.data.item())
 
 	F = F.cpu().numpy()
 	pairs = np.zeros(m)
@@ -135,47 +120,3 @@ def cor_pairs_GPU(Kx, Kz, N, params, p1, p2, device):
 		pairs[i] = np.argsort(F[i])[-1]
 	return F, pairs
 
-
-# def cor_pairs(Kx, Kz, N):
-
-# 	Kx = Kx / N
-# 	Kz = Kz / N
-# 	m = np.shape(Kx)[0]
-# 	n = np.shape(Kz)[0]
-# 	rate = 0.0005
-# 	epoch = 10000
-# 	F = np.zeros((m,n))
-# 	Im = np.ones((m,1))
-# 	In = np.ones((n,1))
-# 	Lambda = np.zeros((n,1))
-# 	Mu = np.zeros((m,1))
-# 	S = np.zeros((n,1))
-# 	p = 10
-# 	for i in range(epoch):
-# 		grad = 2*np.dot(F, np.dot(Kz, np.dot(np.dot(F.T, F), Kz.T))) \
-# 		+ 2*np.dot(F, np.dot(Kz.T, np.dot(np.dot(F.T, F), Kz))) \
-# 		- 2*np.dot(np.dot(Kx.T, F), Kz) - 2*np.dot(np.dot(Kx, F), Kz.T) + np.dot(Mu, In.T) \
-# 		+ np.dot(Im, Lambda.T) + p*(np.dot(np.dot(F, In), In.T) - np.dot(Im, In.T) \
-# 		+ np.dot(np.dot(Im, Im.T), F) + np.dot(Im, (S-In).T))
-# 		F_tmp = F - grad
-# 		for j in range(m):
-# 			for k in range(n):
-# 				if F_tmp[j,k]<0:
-# 					F_tmp[j,k]=0
-# 		F = (1-rate)*F + rate*F_tmp
-
-# 		grad_s = Lambda + p*(np.dot(F.T, Im) - In + S)
-# 		s_tmp = S - grad_s
-# 		for j in  range(n):
-# 			if s_tmp[j,0]<0:
-# 				s_tmp[j,0]=0
-# 		S = (1-rate)*S + rate*s_tmp
-
-# 		Mu = Mu + rate*(np.dot(F,In) - Im)
-# 		Lambda = Lambda + rate*(np.dot(F.T, Im) - In + S)
-# 		print("[{:d}/{:d}]".format(i,epoch), np.linalg.norm(Kx - np.dot(np.dot(F, Kz), F.T)))
-# 	pairs = np.zeros(m)
-# 	for i in range(m):
-# 		pairs[i] = np.argsort(F[i])[-1]
-# 	print(S)
-# 	return F, pairs
