@@ -16,8 +16,8 @@ from sklearn.manifold import TSNE
 import argparse
 
 parser = argparse.ArgumentParser(formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-parser.add_argument('--epoch_DNN',    type=int,     default='800',      help="epoches of DNN")
-parser.add_argument('--epoch_pd',     type=int,     default='100000',   help="epoches of prime-dual algorithm")
+parser.add_argument('--epoch_DNN',    type=int,     default='600',      help="epoches of DNN")
+parser.add_argument('--epoch_pd',     type=int,     default='60000',   help="epoches of prime-dual algorithm")
 parser.add_argument('--epsilon',      type=float,   default='0.0003',   help="learning rate of F")
 parser.add_argument('--epsilon_a',    type=float,   default='0.0003',   help="learning rate of alpha")
 parser.add_argument('--lr',           type=float,   default='0.0005',   help="learning rate of DNN")
