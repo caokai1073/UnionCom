@@ -41,4 +41,4 @@ The input number of neural netowrk of `self.feature1` and `self.feature2` in  mo
 ## AP&NF
 `python3 main.py --isRealData 1 --epoch_pd 150000 --delay 100000`
 
-Te input number of neural netowrk of `self.feature1` and `self.feature2` in  model.py should be 5081 and 5308.
+The input number of neural netowrk of `self.feature1` and `self.feature2` in  model.py should be 5081 and 5308.
