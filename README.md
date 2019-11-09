@@ -9,31 +9,31 @@ torchvision 0.4.1
 scikit-learn 0.21.3  
 
 ## simu1
-`python3 main.py --isRealData 0 --simu 1 --epoch_pd 60000 --delay 10000`
+`python3 main.py --isRealData 0 --simu 1`
 
 The input number of neural netowrk of `self.feature1` and `self.feature2` in  model.py should be 1000 and 500.
 
 
 ## simu2
-`python3 main.py --isRealData 0 --simu 2 --epoch_pd 60000 --delay 10000`
+`python3 main.py --isRealData 0 --simu 2`
 
 The input number of neural netowrk of `self.feature1` and `self.feature2` in  model.py should be 1000 and 500.
 
 
 ## simu3
-`python3 main.py --isRealData 0 --simu 3 --epoch_pd 60000 --delay 10000`
+`python3 main.py --isRealData 0 --simu 3`
 
 The input number of neural netowrk of `self.feature1` and `self.feature2` in  model.py should be 1000 and 500.
 
 #### Note that before you run real world datasets, you should move the corresponding `real_domain1.txt`, `real_domain2.txt`, `type1.txt` and `type2.txt` into real_data and change the input number of deep neural network.
 ## HSCs
-`python3 main.py --isRealData 1 --epoch_pd 60000 --delay 0`
+`python3 main.py --isRealData 1 --delay 0`
 
 The input number of neural netowrk of `self.feature1` and `self.feature2` in  model.py should be 1446 and 1446.
 
 
 ## sc-GEM
-`python3 main.py --isRealData 1 --epoch_pd 100000 --delay 10000`
+`python3 main.py --isRealData 1 --epoch_pd 100000`
 
 The input number of neural netowrk of `self.feature1` and `self.feature2` in  model.py should be 34 and 27.
 
