@@ -8,109 +8,6 @@ import scipy.sparse as sp
 from sklearn.neighbors import NearestNeighbors
 from mpl_toolkits.mplot3d import Axes3D
 
-# def normalized_data():
-
-#     x1 = np.random.normal(-2, 4, 200)
-#     y1 = np.random.normal(20, 2, 200)
-
-#     x2 = np.random.normal(30, 0.5, 100)
-#     y2 = np.random.normal(35, 2, 100)
-
-#     theta = math.pi/4
-#     x2 = x2 * math.cos(theta) + y2 * math.sin(theta)
-#     y2 = y2 * math.cos(theta) - x2 * math.sin(theta)
-
-#     x3 = np.random.normal(20, 1.5, 300)
-#     y3 = np.random.normal(2, 4, 300)
-
-#     x4 = np.random.normal(45, 1.5, 100)
-#     y4 = np.random.normal(20, 1, 100)
-
-#     alpha = math.pi/2
-#     x4 = x4 * math.cos(alpha) + y4 * math.sin(alpha)
-#     y4 = y4 * math.cos(alpha) - x4 * math.sin(alpha)
-
-#     x5 = np.random.normal(-20, 3, 200)
-#     y5 = np.random.normal(0, 3, 200)
-
-#     x = np.append(np.append(x1, x2), x3)
-#     y = np.append(np.append(y1, y2), y3)
-#     x = np.append(np.append(x, x4), x5)
-#     y = np.append(np.append(y, y4), y5)
-#     data1 = np.array([x, y])
-#     data1 = np.transpose(data1)
-
-#     data2 = np.array([y, x])
-#     data2 = np.transpose(data2)
-#     data2_0 = data2
-#     # print(data2)
-#     # permutation = np.random.permutation(data2.shape[0])
-#     # # print(permutation)
-#     # data2 = data2[permutation,:]
-#     # print(data1[:,0]*np.cos(3*data1[:,0]))
-#     # data_1 = np.array([data1[:,0]*np.cos(3*data1[:,0]),data1[:,1],data1[:,0]*np.sin(3*data1[:,0])])
-#     # data_2 = np.array([data1[:,0]*np.sin(2*data1[:,0]),data1[:,1],data1[:,0]*np.cos(2*data1[:,0])])
-#     # data_1 = np.transpose(data_1)
-#     # data_2 = np.transpose(data_2)
-#     # plt.ylim(-20, 20)
-#     # plt.xlim(-20, 20)
-#     # fig = plt.figure()
-#     # ax = Axes3D(fig)
-#     # ax.plot(data1[:,0],data1[:,1],'bo')
-#     # fig = plt.figure()
-#     # ax = Axes3D(fig)
-#     # ax.plot(data2[:,0],data2[:,1],'bo')
-#     # plt.show()
-
-#     return data1, data2, data2_0
-
-# def one_branch_point(length=30, branch1=20, branch2=10, number=50, n1=50, n2=50, noise=0.3):
-
-#     x0 = np.random.uniform(-length, 0, number)
-#     x0 = np.sort(x0)
-#     y0 = np.random.normal(scale=noise, size=number)
-
-#     x1 = np.random.uniform(0, branch1, n1)
-#     x1 = np.sort(x1)
-#     y1 = np.random.normal(scale=noise, size=n1)
-
-#     x2 = np.random.uniform(0, branch2, n2)
-#     x2 = np.sort(x2)
-#     y2 = np.random.normal(scale=noise, size=n2)
-
-#     theta = math.pi / 4
-
-#     x12 = x1 * math.cos(theta) + y1 * math.sin(theta)
-#     y12 = y1 * math.cos(theta) - x1 * math.sin(theta)
-
-#     x22 = x2 * math.cos(-theta) + y2 * math.sin(-theta)
-#     y22 = y2 * math.cos(-theta) - x2 * math.sin(-theta)
-
-#     x = np.append(np.append(x0, x12), x22)
-#     y = np.append(np.append(y0, y12), y22)
-#     data1 = np.array([x, y])
-#     data1 = np.transpose(data1)
-
-#     beta = math.pi / 4
-#     x3 = x * math.cos(beta) - y * math.sin(beta)
-#     y3 = x * math.sin(beta) + y * math.cos(beta) 
-
-#     data2 = np.array([x3, y3])
-#     data2 = np.transpose(data2)
-
-#     data2_0 = data2
-#     permutation = np.random.permutation(data2.shape[0])
-#     data2 = data2[permutation,:]
-
-#     fig = plt.figure()
-#     ax = Axes3D(fig)
-#     ax.plot(data1[:,0],data1[:,1],'bo')
-#     ax.plot(data2[:,0],data2[:,1],'ro')
-#     plt.show()
-#     # np.savetxt('data1.txt', data1)
-#     # np.savetxt('data2.txt', data2)
-#     return data1, data2, data2_0
-
 def one_branch_point2(length=3, branch1=1.5, branch2=0.8, n0=100, n1=50, n2=50, noise=0.05):
 
     x0 = np.random.uniform(-length, 0, n0)
@@ -342,9 +239,6 @@ def cell_circle(n1=250,n2=100,n3=100,n4=160, n5=60, n6=60):
     tmp = np.vstack((tmp, data1[N3:N32+N42]))
     tmp = np.vstack((tmp, data1[N4:N42+N52]))
     data1 = np.vstack((tmp, data1[N5:N52+N62]))
-
-
-    # print(np.shape(data1))
     data1 = data1 + np.random.normal(0,0.03,np.shape(data1))
 
     row1 = np.shape(data1)[0]
@@ -391,8 +285,7 @@ def cell_circle(n1=250,n2=100,n3=100,n4=160, n5=60, n6=60):
 
 def project_high_dim(data, d, p, data2_0=None, flag=0):
     T = np.random.normal(0,0.5,(d,p))
-    # print(T)
-    # T = np.eye(2)
+
     if flag:
         return np.matmul(data, T), np.matmul(data2_0, T)
     return np.matmul(data, T)
