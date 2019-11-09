@@ -168,10 +168,10 @@ np.savetxt('./result/new_data2.txt',data_2)
 # data_1 = np.loadtxt("./result/new_data1.txt")
 # data_2 = np.loadtxt("./result/new_data2.txt")
 
-# if params.isRealData == 0:
-fraction = align_fraction(data_1, data_2, params)
-print("average fraction:")
-print(fraction)
+if params.isRealData == 0:
+	fraction = align_fraction(data_1, data_2, params)
+	print("average fraction:")
+	print(fraction)
 
 acc = transfer_accuracy(data_1, data_2, type1, type2)
 print("label transfer accuracy:")
