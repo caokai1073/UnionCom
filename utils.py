@@ -149,7 +149,7 @@ def KNN(data, k):
 
 def geodesic_distances(X):
 	kmin = 5
-	nbrs = NearestNeighbors(n_neighbors=kmin, metric='euclidean').fit(X)
+	nbrs = NearestNeighbors(n_neighbors=kmin, metric='euclidean', n_jobs=-1).fit(X)
 	# distances, indices = nbrs.kneighbors(X)
 	knn = nbrs.kneighbors_graph(X, mode='distance')
 	connected_components = sp.csgraph.connected_components(knn, directed=False)[0]
