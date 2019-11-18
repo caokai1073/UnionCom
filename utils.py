@@ -25,7 +25,7 @@ def get_data_loader(name, dataset_root, batch_size, train=True):
 	if name == "domain2":
 		return get_domain2(dataset_root, batch_size, train)
 
-def init_model(net, restore):
+def init_model(net, device, restore):
 	if restore is not None and os.path.exits(restore):
 		net.load_state_dict(torch.load(restore))
 		net.restored = True
@@ -35,7 +35,7 @@ def init_model(net, restore):
 
 	if torch.cuda.is_available():
 		cudnn.benchmark =True
-		net.cuda()
+		net.to(device)
 
 	return net
 
