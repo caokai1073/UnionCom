@@ -143,7 +143,7 @@ np.savetxt("./result/cor_pairs.txt", cor_pairs)
 print(cor_pairs)
 
 net = Project()
-Project = init_model(net, restore = None)
+Project = init_model(net, device, restore = None)
 
 print("Training Project and Discriminator")
 
