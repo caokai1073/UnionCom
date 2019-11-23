@@ -33,7 +33,7 @@ The input number of `self.feature1` and `self.feature2` in  model.py should be 1
 
 
 ## sc-GEM
-`python3 main.py --isRealData 1 --epoch_pd 100000`
+`python3 main.py --isRealData 1 --epoch_DNN 100`
 
 The input number of neural netowrk of `self.feature1` and `self.feature2` in  model.py should be 34 and 27.
 
