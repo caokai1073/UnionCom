@@ -29,3 +29,26 @@ new_data0 = integrated_data[0]
 ...
 new_dataN = integrated_data[N]
 ```
+
+## Usage for test label transfer accuracy
+```
+data0 = np.loadtxt("data0.txt")
+label0 = np.loadtxt("label0.txt")
+...
+dataN = np.loadtxt("dataN.txt")
+labelN = np.loadtxt("labelN.txt")
+
+data = [data0, ..., dataN]
+label = [label0,...,labelN]
+
+integrated_data = UnionCom.fit_transform(data, label, test=True)
+```
+
+
+
+
+
+
+
+
+
