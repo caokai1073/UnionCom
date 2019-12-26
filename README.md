@@ -8,8 +8,24 @@ torch 1.3.0
 torchvision 0.4.1  
 scikit-learn 0.21.3  
 
-## install
+## Install
 UnionCom software is available by
-'''
-pip
-'''
+```
+pip3 install UnionCom
+```
+
+## Usage for integrate data
+if ```data0.txt, ... ,dataN.txt``` to be integrated, then use
+```
+data0 = np.loadtxt("data0.txt")
+...
+dataN = np.loadtxt("dataN.txt")
+
+data = [data0, ..., dataN]
+
+integrated_data = UnionCom.fit_transform(data)
+
+new_data0 = integrated_data[0]
+...
+new_dataN = integrated_data[N]
+```
