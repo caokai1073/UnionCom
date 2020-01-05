@@ -48,6 +48,7 @@ test: test the match fraction and label transfer accuracy, need datatype.
 if ```data0.txt, ... ,dataN.txt``` to be integrated, then use
 ```
 from unioncom import UnionCom
+import  numpy as np
 
 data0 = np.loadtxt("data0.txt")
 ...
@@ -65,6 +66,7 @@ new_dataN = integrated_data[N]
 ## Usage for test label transfer accuracy
 ```
 from unioncom import UnionCom
+import  numpy as np
 
 data0 = np.loadtxt("data0.txt")
 label0 = np.loadtxt("label0.txt")
