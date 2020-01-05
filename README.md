@@ -36,9 +36,9 @@ rho: training damping term.
 log_step: log step of training DNN.
 manual_seed: random seed.
 delay: delay steps of alpha.
-beta: trade-off parameter of KL divergence and integration loss
-usePercent: data subsampling percentage.
-distance: mode of distance.
+beta: trade-off parameter of KL divergence and integration loss.
+usePercent: data subsampling percentage. (from 0.0 to 1.0)
+distance: mode of distance. [geodesic, Euclidean]
 output_dim: output dimension of integrated data.
 Adam: use Adam with Prime-dual.
 test: test the match fraction and label transfer accuracy, need datatype.
