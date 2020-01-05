@@ -19,7 +19,7 @@ pip3 install unioncom
 ```
 UnionCom.fit_transform(dataset, datatype=None, epoch_total=1, epoch_pd=30000, epoch_DNN=100, epsilon=0.001, 
 epsilon_a=0.001, lr=0.001, batch_size=100, rho=10, log_step=10, manual_seed=8888, delay=0, beta=0, 
-usePercent=1.0, kmax=20, distance = 'geodesic', output_dim=32, Adam=True, test=False)
+usePercent=1.0, kmax=20, distance = 'geodesic', output_dim=32, test=False)
 ```
 ```
 dataset: list of datasets to be integrated. [dataset1, dataset2, ...].
@@ -31,16 +31,15 @@ epsilon: training rate of data matching matrix F.
 epsilon_a: training rate of scaling factor alpha.
 lr: training rate of DNN.
 batch_size: training batch size of DNN.
-beta: trade-off parameter of structure preserving and point matching.
 rho: training damping term.
 log_step: log step of training DNN.
 manual_seed: random seed.
 delay: delay steps of alpha.
-beta: trade-off parameter of KL divergence and integration loss.
+beta: trade-off parameter of structure preserving and point matching.
 usePercent: data subsampling percentage. (from 0.0 to 1.0)
+kmax: maximum value of knn when constructing geodesic distance matrix
 distance: mode of distance. [geodesic, Euclidean]
 output_dim: output dimension of integrated data.
-Adam: use Adam with Prime-dual.
 test: test the match fraction and label transfer accuracy, need datatype.
 ```
 
