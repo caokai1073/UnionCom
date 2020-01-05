@@ -15,6 +15,36 @@ UnionCom software is available on the Python package index (PyPI). To install it
 pip3 install UnionCom
 ```
 
+## Parameters
+```
+UnionCom.fit_transform(dataset, datatype=None, epoch_total=1, epoch_pd=30000, epoch_DNN=100, epsilon=0.001, 
+epsilon_a=0.001, lr=0.001, batch_size=100, rho=10, log_step=10, manual_seed=8888, delay=0, beta=0, 
+usePercent=1.0, kmax=20, distance = 'geodesic', output_dim=32, Adam=True, test=False)
+```
+```
+parameters:
+dataset: list of datasets to be integrated. [dataset1, dataset2, ...].
+datatype: list of data type. [datatype1, datatype2, ...].
+epoch_total: total epoch of training, used when data subsampling is used.
+epoch_pd: epoch of Prime-dual algorithm.
+epoch_DNN: epoch of training Deep Neural Network.
+epsilon: training rate of data matching matrix F.
+epsilon_a: training rate of scaling factor alpha.
+lr: training rate of DNN.
+batch_size: training batch size of DNN.
+beta: trade-off parameter of structure preserving and point matching.
+rho: training damping term.
+log_step: log step of training DNN.
+manual_seed: random seed.
+delay: delay steps of alpha.
+beta: trade-off parameter of KL divergence and integration loss
+usePercent: data subsampling percentage.
+distance: mode of distance.
+output_dim: output dimension of integrated data.
+Adam: use Adam with Prime-dual.
+test: test the match fraction and label transfer accuracy, need datatype.
+```
+
 ## Usage for integrate data
 if ```data0.txt, ... ,dataN.txt``` to be integrated, then use
 ```
