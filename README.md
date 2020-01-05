@@ -2,7 +2,7 @@
 
 ## Enviroment:
 Ubuntu 18.04.3 LTS  
-python 3.6.8  
+python >= 3.6
 numpy 1.17.3  
 torch 1.3.0  
 torchvision 0.4.1  
