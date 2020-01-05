@@ -12,7 +12,7 @@ scikit-learn 0.21.3
 ## Install
 UnionCom software is available on the Python package index (PyPI). To install it using pip, simply type:
 ```
-pip3 install UnionCom
+pip3 install unioncom
 ```
 
 ## Parameters
@@ -47,6 +47,8 @@ test: test the match fraction and label transfer accuracy, need datatype.
 ## Usage for integrate data
 if ```data0.txt, ... ,dataN.txt``` to be integrated, then use
 ```
+from unioncom import UnionCom
+
 data0 = np.loadtxt("data0.txt")
 ...
 dataN = np.loadtxt("dataN.txt")
@@ -62,6 +64,8 @@ new_dataN = integrated_data[N]
 
 ## Usage for test label transfer accuracy
 ```
+from unioncom import UnionCom
+
 data0 = np.loadtxt("data0.txt")
 label0 = np.loadtxt("label0.txt")
 ...
