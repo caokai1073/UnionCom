@@ -22,7 +22,6 @@ epsilon_a=0.001, lr=0.001, batch_size=100, rho=10, log_step=10, manual_seed=8888
 usePercent=1.0, kmax=20, distance = 'geodesic', output_dim=32, Adam=True, test=False)
 ```
 ```
-parameters:
 dataset: list of datasets to be integrated. [dataset1, dataset2, ...].
 datatype: list of data type. [datatype1, datatype2, ...].
 epoch_total: total epoch of training, used when data subsampling is used.
