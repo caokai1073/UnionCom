@@ -44,7 +44,7 @@ test: test the match fraction and label transfer accuracy, need datatype.
 ```
 
 ## Usage for integrate data
-if ```data0.txt, ... ,dataN.txt``` to be integrated, then use
+```data0.txt, ... ,dataN.txt``` to be integrated, use
 ```
 from unioncom import UnionCom
 import  numpy as np
