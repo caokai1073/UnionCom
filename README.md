@@ -43,7 +43,7 @@ output_dim: output dimension of integrated data.
 test: test the match fraction and label transfer accuracy, need datatype.
 ```
 
-## Usage for integrate data
+## Integrate data
 ```data0.txt, ... ,dataN.txt``` to be integrated, use
 ```
 from unioncom import UnionCom
@@ -62,7 +62,7 @@ new_data0 = integrated_data[0]
 new_dataN = integrated_data[N]
 ```
 
-## Usage for test label transfer accuracy
+## Test label transfer accuracy
 ```
 from unioncom import UnionCom
 import  numpy as np
