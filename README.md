@@ -83,7 +83,7 @@ integrated_data = UnionCom.fit_transform(data, label, test=True)
 ## Example
 We obtained **Cheow_expression.csv** and **Cheow_methylation.csv** from https://github.com/jw156605/MATCHER
 
-[Result of scGEM data by UnionCom](https://github.com/caokai1073/UnionCom/blob/master/result.pdf)
+!(https://github.com/caokai1073/UnionCom/blob/master/result.jpg)
 
 
 
