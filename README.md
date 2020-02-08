@@ -18,7 +18,8 @@ pip3 install unioncom
 ## Parameters
 ```
 UnionCom.fit_transform(dataset, datatype=None, epoch_pd=30000, epoch_DNN=100, epsilon=0.001, 
-epsilon_a=0.001, lr=0.001, batch_size=100, rho=10, log_step=10, manual_seed=8888, delay=0, beta=0, kmax=20, distance = 'geodesic', output_dim=32, test=False)
+epsilon_a=0.001, lr=0.001, batch_size=100, rho=10, log_step=10, manual_seed=8888, delay=0, 
+beta=1, kmax=20, distance = 'geodesic', output_dim=32, test=False)
 ```
 ```
 dataset: list of datasets to be integrated. [dataset1, dataset2, ...].
@@ -41,37 +42,37 @@ test: test the match fraction and label transfer accuracy, need datatype.
 ```
 
 ## Integrate data
-```data0.txt, ... ,dataN.txt``` to be integrated, use
+```data_0.txt, ... ,data_N.txt``` to be integrated, use
 ```
 from unioncom import UnionCom
-import  numpy as np
+import numpy as np
 
-data0 = np.loadtxt("data0.txt")
+data_0 = np.loadtxt("data_0.txt")
 ...
-dataN = np.loadtxt("dataN.txt")
+data_N = np.loadtxt("data_N.txt")
 
-data = [data0, ..., dataN]
+data = [data_0, ..., data_N]
 
 integrated_data = UnionCom.fit_transform(data)
 
-new_data0 = integrated_data[0]
+matched_data_0 = integrated_data[0]
 ...
-new_dataN = integrated_data[N]
+matched_data_N = integrated_data[N]
 ```
 
 ## Test label transfer accuracy
 ```
 from unioncom import UnionCom
-import  numpy as np
+import numpy as np
 
-data0 = np.loadtxt("data0.txt")
-label0 = np.loadtxt("label0.txt")
+data_0 = np.loadtxt("data_0.txt")
+label_0 = np.loadtxt("label_0.txt")
 ...
-dataN = np.loadtxt("dataN.txt")
-labelN = np.loadtxt("labelN.txt")
+data_N = np.loadtxt("data_N.txt")
+label_N = np.loadtxt("label_N.txt")
 
-data = [data0, ..., dataN]
-label = [label0,...,labelN]
+data = [data_0, ..., data_N]
+label = [label_0,...,label_N]
 
 integrated_data = UnionCom.fit_transform(data, label, test=True)
 ```
