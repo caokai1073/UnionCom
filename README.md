@@ -1,6 +1,9 @@
 # UnionCom
 
-## Enviroment:
+## Paper
+[Unsupervised Topological Alignment for Single-Cell Multi-Omics Integration](https://www.biorxiv.org/content/10.1101/2020.02.02.931394v1)
+
+## Enviroment
 Ubuntu 18.04.3 LTS  
 python >= 3.6
 
@@ -77,6 +80,10 @@ label = [label_0,...,label_N]
 integrated_data = UnionCom.fit_transform(data, label, test=True)
 ```
 
+## Example
+We obtained **Cheow_expression.csv** and **Cheow_methylation.csv** from https://github.com/jw156605/MATCHER
+
+[Result of scGEM data by UnionCom](https://github.com/caokai1073/UnionCom/blob/master/result.pdf)
 
 
 
