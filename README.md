@@ -37,7 +37,7 @@ manual_seed: random seed.
 delay: delay steps of alpha. (from 0 to epoch_pd)
 beta: trade-off parameter of structure preserving and point matching.
 kmax: maximum value of knn when constructing geodesic distance matrix
-distance: mode of distance. [geodesic, Euclidean]
+distance: mode of distance. [geodesic, euclidean]
 output_dim: output dimension of integrated data.
 test: test the match fraction and label transfer accuracy, need datatype.
 ```
