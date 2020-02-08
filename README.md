@@ -17,14 +17,12 @@ pip3 install unioncom
 
 ## Parameters
 ```
-UnionCom.fit_transform(dataset, datatype=None, epoch_total=1, epoch_pd=30000, epoch_DNN=100, epsilon=0.001, 
-epsilon_a=0.001, lr=0.001, batch_size=100, rho=10, log_step=10, manual_seed=8888, delay=0, beta=0, 
-usePercent=1.0, kmax=20, distance = 'geodesic', output_dim=32, test=False)
+UnionCom.fit_transform(dataset, datatype=None, epoch_pd=30000, epoch_DNN=100, epsilon=0.001, 
+epsilon_a=0.001, lr=0.001, batch_size=100, rho=10, log_step=10, manual_seed=8888, delay=0, beta=0, kmax=20, distance = 'geodesic', output_dim=32, test=False)
 ```
 ```
 dataset: list of datasets to be integrated. [dataset1, dataset2, ...].
 datatype: list of data type. [datatype1, datatype2, ...].
-epoch_total: total epoch of training, used when data subsampling is used.
 epoch_pd: epoch of Prime-dual algorithm.
 epoch_DNN: epoch of training Deep Neural Network.
 epsilon: training rate of data matching matrix F.
@@ -34,9 +32,8 @@ batch_size: training batch size of DNN.
 rho: training damping term.
 log_step: log step of training DNN.
 manual_seed: random seed.
-delay: delay steps of alpha.
+delay: delay steps of alpha. (from 0 to epoch_pd)
 beta: trade-off parameter of structure preserving and point matching.
-usePercent: data subsampling percentage. (from 0.0 to 1.0)
 kmax: maximum value of knn when constructing geodesic distance matrix
 distance: mode of distance. [geodesic, Euclidean]
 output_dim: output dimension of integrated data.
