@@ -53,7 +53,7 @@ def cor_pairs_match(Kx, Kz, N, params, p1, p2, epo, device):
 			torch.trace(torch.mm(torch.t(Kx), Kx))
 
 		norm2 = torch.norm(a*Kx - torch.mm(torch.mm(F, Kz), torch.t(F)))
-		if (i+1) % 500 == 0:
+		if (i+1) % params.log_pd == 0:
 			print("[{:4d}/{}] [{:d}/{:d}]".format(epo+1, params.epoch_total, i+1,params.epoch_pd), norm2.data.item(), a)
 
 	F = F.cpu().numpy()

@@ -98,7 +98,7 @@ def train(Project, params, dataset, dist, P_joint, change, device):
 				loss.backward()
 				optimizer.step()
 
-			if (epoch+1) % params.log_step == 0:
+			if (epoch+1) % params.log_DNN == 0:
 				print("[{:4d}/{}] [{:4d}/{}]: loss={:4f}, feature_loss={:4f}".format(epo+1, params.epoch_total, epoch+1, \
 					params.epoch_DNN, loss.data.item(), feature_loss.data.item()))
 

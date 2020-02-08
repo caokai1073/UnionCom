@@ -18,17 +18,18 @@ class params():
 	lr = 0.001
 	batch_size = 100
 	rho = 10
-	log_step = 10
+	log_DNN = 10
+	log_pd = 500
 	manual_seed = 8888
 	delay = 0
 	usePercent = 1.0
 	kmax = 20
-	beta = 1/usePercent
+	beta = 1
 	Adam = True
 
 def fit_transform(dataset, datatype=None, epoch_total=1, epoch_pd=30000, epoch_DNN=100, \
 	epsilon=0.001, epsilon_a=0.001, lr=0.001, batch_size=100, rho=10, \
-	log_step=10, manual_seed=8888, delay=0, usePercent=1.0, kmax=20, distance = 'geodesic', \
+	log_DNN=10, log_pd=500, manual_seed=8888, delay=0, beta=1, usePercent=1.0, kmax=20, distance = 'geodesic', \
 	output_dim=32, Adam=True, test=False):
 
 	'''
@@ -48,7 +49,8 @@ def fit_transform(dataset, datatype=None, epoch_total=1, epoch_pd=30000, epoch_D
 	batch_size: training batch size of DNN.
 	beta: trade-off parameter of structure preserving and point matching.
 	rho: training damping term.
-	log_step: log step of training DNN.
+	log_DNN: log step of training DNN.
+	log_pd: log step of prime dual method
 	manual_seed: random seed.
 	delay: delay steps of alpha.
 	usePercent: data subsampling percentage.
@@ -71,7 +73,7 @@ def fit_transform(dataset, datatype=None, epoch_total=1, epoch_pd=30000, epoch_D
 	params.manual_seed = manual_seed
 	params.delay = delay
 	params.usePercent = usePercent
-	params.beta = 1/usePercent
+	params.beta = beta
 	params.kmax = kmax
 	params.Adam = Adam
 
