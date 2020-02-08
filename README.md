@@ -18,7 +18,7 @@ pip3 install unioncom
 ## Parameters
 ```
 UnionCom.fit_transform(dataset, datatype=None, epoch_pd=30000, epoch_DNN=100, epsilon=0.001, 
-epsilon_a=0.001, lr=0.001, batch_size=100, rho=10, log_step=10, manual_seed=8888, delay=0, 
+epsilon_a=0.001, lr=0.001, batch_size=100, rho=10, log_DNN=10, log_pd=500, manual_seed=8888, delay=0, 
 beta=1, kmax=20, distance = 'geodesic', output_dim=32, test=False)
 ```
 ```
@@ -31,7 +31,8 @@ epsilon_a: training rate of scaling factor alpha.
 lr: training rate of DNN.
 batch_size: training batch size of DNN.
 rho: training damping term.
-log_step: log step of training DNN.
+log_DNN: log step of training DNN.
+log_pd: log step of training prime-dual method.
 manual_seed: random seed.
 delay: delay steps of alpha. (from 0 to epoch_pd)
 beta: trade-off parameter of structure preserving and point matching.
