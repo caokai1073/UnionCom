@@ -69,7 +69,8 @@ def fit_transform(dataset, datatype=None, epoch_total=1, epoch_pd=30000, epoch_D
 	params.lr = lr
 	params.batch_size = batch_size
 	params.rho = rho
-	params.log_step = log_step
+	params.log_DNN = log_DNN
+	params.log_pd = log_pd
 	params.manual_seed = manual_seed
 	params.delay = delay
 	params.usePercent = usePercent
