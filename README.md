@@ -56,9 +56,7 @@ data_0 = np.loadtxt("data_0.txt")
 ...
 data_N = np.loadtxt("data_N.txt")
 
-data = [data_0, ..., data_N]
-
-integrated_data = UnionCom.fit_transform(data)
+integrated_data = UnionCom.fit_transform([data_0, ..., data_N])
 
 matched_data_0 = integrated_data[0]
 ...
@@ -76,10 +74,7 @@ label_0 = np.loadtxt("label_0.txt")
 data_N = np.loadtxt("data_N.txt")
 label_N = np.loadtxt("label_N.txt")
 
-data = [data_0, ..., data_N]
-label = [label_0,...,label_N]
-
-integrated_data = UnionCom.fit_transform(data, label, test=True)
+integrated_data = UnionCom.fit_transform([data_0, ..., data_N], [label_0,...,label_N], test=True)
 ```
 
 ## Example
