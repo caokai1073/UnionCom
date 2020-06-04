@@ -72,17 +72,17 @@ def calc_P(distances, sigmas=None):
 		return softmax(distances)
 
 #a binary search algorithm for target
-# def binary_search(eval_fn, target ,tol=1e-10, max_iter=10000, lower=1e-20, upper=1000.):
-# 	for i in range(max_iter):
-# 		guess = (lower + upper) /2.
-# 		val = eval_fn(guess)
-# 		if val > target:
-# 			upper = guess
-# 		else:
-# 			lower = guess
-# 		if np.abs(val - target) <= tol:
-# 			break
-# 	return guess
+def binary_search(eval_fn, target ,tol=1e-10, max_iter=10000, lower=1e-20, upper=1000.):
+	for i in range(max_iter):
+		guess = (lower + upper) /2.
+		val = eval_fn(guess)
+		if val > target:
+			upper = guess
+		else:
+			lower = guess
+		if np.abs(val - target) <= tol:
+			break
+	return guess
 
 #input matrix P, compute perp(P_i)=2^H(P_i), where H(P_i)=-sum(p_ij * log2 P_ij)
 def calc_perplexity(prob_matrix):
@@ -107,8 +107,8 @@ def p_conditional_to_joint(P):
 
 def p_joint(X, target_perplexity):
     distances = neg_squared_euc_dists(X)
-    #sigmas = find_optimal_sigmas(distances, target_perplexity)
-    p_conditional = calc_P(distances)
+    sigmas = find_optimal_sigmas(distances, target_perplexity)
+    p_conditional = calc_P(distances, sigmas)
     P = p_conditional_to_joint(p_conditional)
     return P
 

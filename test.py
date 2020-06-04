@@ -54,9 +54,9 @@ def test_UnionCom(Project, dataset, datatype, change, params, device, test):
 
 	if test:
 		for i in range(len(dataset_test)-1):
-			fraction = align_fraction(data[i], data[-1], params)
-			print("average fraction:")
-			print(fraction)
+			# fraction = align_fraction(data[i], data[-1], params)
+			# print("average fraction:")
+			# print(fraction)
 
 			acc = transfer_accuracy(data[i], data[-1], datatype[i], datatype[-1])
 			print("label transfer accuracy:")

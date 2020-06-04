@@ -2,17 +2,17 @@ import os
 import sys
 import numpy as np
 from sklearn import preprocessing
-from unioncom.model import *
-from unioncom.train import train
-from unioncom.utils import *
-from unioncom.test import *
+from model import *
+from train import train
+from utils import *
+from test import *
 
 # print(os.getcwd())
 
 class params():
 	epoch_total = 1
-	epoch_pd = 30000
-	epoch_DNN = 100
+	epoch_pd = 20000
+	epoch_DNN = 200
 	epsilon = 0.001
 	epsilon_a = 0.001
 	lr = 0.001
@@ -22,15 +22,13 @@ class params():
 	log_pd = 500
 	manual_seed = 8888
 	delay = 0
-	usePercent = 1.0
 	kmax = 20
 	beta = 1
-	Adam = True
 
-def fit_transform(dataset, datatype=None, epoch_total=1, epoch_pd=30000, epoch_DNN=100, \
+def fit_transform(dataset, datatype=None, epoch_total=1, epoch_pd=20000, epoch_DNN=200, \
 	epsilon=0.001, epsilon_a=0.001, lr=0.001, batch_size=100, rho=10, \
-	log_DNN=10, log_pd=500, manual_seed=8888, delay=0, beta=1, usePercent=1.0, kmax=20, distance = 'geodesic', \
-	output_dim=32, Adam=True, test=False):
+	log_DNN=10, log_pd=500, manual_seed=8888, delay=0, beta=1, kmax=20, distance = 'geodesic', \
+	output_dim=32, test=False):
 
 	'''
 	---------------------
@@ -56,7 +54,6 @@ def fit_transform(dataset, datatype=None, epoch_total=1, epoch_pd=30000, epoch_D
 	usePercent: data subsampling percentage.
 	distance: mode of distance.
 	output_dim: output dimension of integrated data.
-	Adam: use Adam with Prime-dual.
 	test: test the match fraction and label transfer accuracy, need datatype.
 	---------------------
 	'''
@@ -73,10 +70,8 @@ def fit_transform(dataset, datatype=None, epoch_total=1, epoch_pd=30000, epoch_D
 	params.log_pd = log_pd
 	params.manual_seed = manual_seed
 	params.delay = delay
-	params.usePercent = usePercent
 	params.beta = beta
 	params.kmax = kmax
-	params.Adam = Adam
 
 	init_random_seed(manual_seed)
 	device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -100,10 +95,14 @@ def fit_transform(dataset, datatype=None, epoch_total=1, epoch_pd=30000, epoch_D
 	#### compute the distance matrix and the largest connected component
 	dist = []
 	kmin = []
-	min_max_scaler = preprocessing.MinMaxScaler()
+	# min_max_scaler = preprocessing.MinMaxScaler()
 	for i in range(len(dataset)):
-		#dataset[i] = (dataset[i] - np.mean(dataset[i])) / np.std(dataset[i])
-		dataset[i] = min_max_scaler.fit_transform(dataset[i])
+			
+		dataset[i] = (dataset[i]- np.min(dataset[i])) / (np.max(dataset[i]) - np.min(dataset[i]))
+
+		# if params.Normalization == 'MinMax':
+		# 	dataset[i] = min_max_scaler.fit_transform(dataset[i])
+
 		if distance == 'geodesic':
 			dist_tmp, k_tmp, not_connected, connect_element, index = geodesic_distances(dataset[i], params.kmax)
 			dist.append(dist_tmp)
@@ -145,4 +144,3 @@ def fit_transform(dataset, datatype=None, epoch_total=1, epoch_pd=30000, epoch_D
 	result = train(Project_net, params, dataset, dist, P_joint, change, device)
 
 	return test_UnionCom(result, dataset, datatype, change, params, device, test)
-

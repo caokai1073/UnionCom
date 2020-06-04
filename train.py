@@ -32,19 +32,19 @@ def train(Project, params, dataset, dist, P_joint, change, device):
 		row.append(np.shape(dataset[i])[0])
 		col.append(np.shape(dataset[i])[1])
 
-	N = np.int(np.max([len(l) for l in dataset])*params.usePercent)
+	N = np.int(np.max([len(l) for l in dataset]))
 
 	for epo in range(params.epoch_total):
 		dataset_anchor = []
 		dist_anchor = []
 		cor_pairs = []
 		for i in range(dataset_num):
-			random_anchor = random.sample(range(0,row[i]), int(row[i]*params.usePercent))
+			random_anchor = random.sample(range(0,row[i]), int(row[i]))
 
 			dataset_anchor.append(dataset[i][random_anchor])
 			dataset_anchor[i] = torch.from_numpy(dataset_anchor[i]).to(device).float()
 			
-			anchor_num = np.int(row[i] * params.usePercent)
+			anchor_num = np.int(row[i])
 			dist_anchor.append(np.zeros([anchor_num, anchor_num]))
 
 			for j in range(anchor_num):
@@ -53,14 +53,12 @@ def train(Project, params, dataset, dist, P_joint, change, device):
 		for i in range(dataset_num-1):
 			print("Match corresponding points between Dataset {} and Dataset {}".format(change[i], \
 				change[dataset_num-1]))
-			if params.Adam:
-				cor_pairs.append(cor_pairs_match_Adam(dist_anchor[i], dist_anchor[-1], N, \
+			
+			cor_pairs.append(cor_pairs_match_Adam(dist_anchor[i], dist_anchor[-1], N, \
 					params, col[i], col[-1], epo, device))
-			else:
-				cor_pairs.append(cor_pairs_match(dist_anchor[i], dist_anchor[-1], N, \
-					params, col[i], col[-1], epo, device))
+		
 		print("Finished Matching!")
-		print("Begin training the Deep Neural Network:")
+		print("Begin training the Deep Neural Network")
 		for epoch in range(params.epoch_DNN):
 			len_dataloader = np.int(np.max(row)/params.batch_size)
 			if len_dataloader == 0:
