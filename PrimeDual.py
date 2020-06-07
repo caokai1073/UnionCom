@@ -3,7 +3,7 @@ import random
 import torch
 import numpy as np
 
-def cor_pairs_match_Adam(Kx, Kz, N, params, p1, p2, epo, device):
+def cor_pairs_match_Adam(Kx, Kz, N, params, p1, p2, device):
 	print("use device:", device)
 	Kx = Kx / N 
 	Kz = Kz / N
@@ -57,19 +57,14 @@ def cor_pairs_match_Adam(Kx, Kz, N, params, p1, p2, epo, device):
 
 		#### if scaling factor a changes too fast, we can delay the update of speed.
 		if i>=params.delay:
-			# grad_a = 2*a*torch.mm(torch.t(Kx), Kx) - torch.mm(torch.t(Kx), torch.mm(F, torch.mm(Kz, torch.t(F)))) - \
-			# torch.mm(F, torch.mm(torch.t(Kz), torch.mm(torch.t(F), Kx)))
-			# a = a - params.epsilon_a*grad_a
-			# a = torch.mean(a).to(device)
 
 			a = torch.trace(torch.mm(torch.t(Kx), torch.mm(torch.mm(F, Kz), torch.t(F)))) / \
 			torch.trace(torch.mm(torch.t(Kx), Kx))
 
 		norm2 = torch.norm(a*Kx - torch.mm(torch.mm(F, Kz), torch.t(F)))
 		
-		if (i+1) % 500 == 0:
-			print("[{:d}/{}] [{:d}/{:d}]".format(epo+1, params.epoch_total, i+1,params.epoch_pd), norm2.data.item(), \
-				"alpha: {:4f}".format(a))
+		if (i+1) % params.log_pd == 0:
+			print("epoch:[{:d}/{:d}] err:{:.4f} alpha:{:.4f}".format(i+1, params.epoch_pd, norm2.data.item(), a))
 
 	F = F.cpu().numpy()
 	pairs = np.zeros(m)

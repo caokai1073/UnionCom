@@ -15,15 +15,11 @@ def init_random_seed(manual_seed):
 		seed = manual_seed
 	print("use random seed: {}".format(seed))
 	random.seed(seed)
+	np.random.seed(seed)
 	torch.manual_seed(seed)
 	if torch.cuda.is_available():
 		torch.cuda.manual_seed_all(seed)
 
-# def get_data_loader(name, dataset_root, batch_size, train=True):
-# 	if name == "domain1":
-# 		return get_domain1(dataset_root, batch_size, train)
-# 	if name == "domain2":
-# 		return get_domain2(dataset_root, batch_size, train)
 
 def init_model(net, device, restore):
 	if restore is not None and os.path.exits(restore):
@@ -118,35 +114,6 @@ def q_tsne(Y):
 	np.fill_diagonal(inv_distances, 0)	
 	return inv_distances / np.sum(inv_distances)
 
-
-def w_pos(X, target_perplexity):
-    distances = neg_squared_euc_dists(X)
-    sigmas = find_optimal_sigmas(distances, target_perplexity)
-    two_sig_sq = 2. * np.square(sigmas.reshape((-1, 1)))
-    return np.exp(distances / two_sig_sq)
-
-def w_neg(X):
-    return -neg_squared_euc_dists(X)
-
-def KNN(data, k):
-    row, col = np.shape(data)
-    AdjMatrix = np.zeros((row, k))
-    Neighber_dis = np.zeros((row, k))
-    for i in range(row):
-        diffMat = np.tile(data[i], (row,1)) - data
-        sqDiffMat = diffMat**2
-        sqDistances = sqDiffMat.sum(axis=1)
-        
-        NearestN = np.argsort(sqDistances)[:k+1]
-        AdjMatrix[i]=NearestN[1:k+1]
-        AdjMatrix = AdjMatrix.astype(int)
-
-        sqDistances = np.sort(sqDistances)
-        sqDistances = sqDistances**0.5
-        Neighber_dis[i] = sqDistances[1:k+1]
-   
-    return AdjMatrix, Neighber_dis
-
 def geodesic_distances(X, kmax):
 	kmin = 5
 	nbrs = NearestNeighbors(n_neighbors=kmin, metric='euclidean', n_jobs=-1).fit(X)
@@ -166,50 +133,53 @@ def geodesic_distances(X, kmax):
 
 	dist = sp.csgraph.floyd_warshall(knn, directed=False)
 
-	connected_element = []
-	if not_connected:
-		inf_matrix = []
+	dist_max = np.nanmax(dist[dist != np.inf])
+	dist[dist > dist_max] = dist_max
+
+	# connected_element = []
+	# if not_connected:
+	# 	inf_matrix = []
 		
-		for i in range(len(X)):
-			inf_matrix.append(list(chain.from_iterable(np.argwhere(np.isinf(dist[i])))))
+	# 	for i in range(len(X)):
+	# 		inf_matrix.append(list(chain.from_iterable(np.argwhere(np.isinf(dist[i])))))
 
 		
-		for i in range(len(X)):
-			if i==0:
-				connected_element.append([])
-				connected_element[0].append(i)
-			else:
-				for j in range(len(connected_element)+1):
-					if j == len(connected_element):
-						connected_element.append([])
-						connected_element[j].append(i)
-						break
-					if inf_matrix[i] == inf_matrix[connected_element[j][0]]:
-						connected_element[j].append(i)
-						break
-		for i in range(len(connected_element)):
-			if i==0:
-				mx = len(connected_element[0])
-				index = 0
-			if len(connected_element[i])>mx:
-				mx = len(connected_element[0])
-				index = i
+	# 	for i in range(len(X)):
+	# 		if i==0:
+	# 			connected_element.append([])
+	# 			connected_element[0].append(i)
+	# 		else:
+	# 			for j in range(len(connected_element)+1):
+	# 				if j == len(connected_element):
+	# 					connected_element.append([])
+	# 					connected_element[j].append(i)
+	# 					break
+	# 				if inf_matrix[i] == inf_matrix[connected_element[j][0]]:
+	# 					connected_element[j].append(i)
+	# 					break
+	# 	for i in range(len(connected_element)):
+	# 		if i==0:
+	# 			mx = len(connected_element[0])
+	# 			index = 0
+	# 		if len(connected_element[i])>mx:
+	# 			mx = len(connected_element[0])
+	# 			index = i
 
-		X = X[connected_element[index]]
-		kmin = 5
-		nbrs = NearestNeighbors(n_neighbors=kmin, metric='euclidean', n_jobs=-1).fit(X)
-		knn = nbrs.kneighbors_graph(X, mode='distance')
-		connected_components = sp.csgraph.connected_components(knn, directed=False)[0]
-		while connected_components is not 1:
-			kmin += 2
-			nbrs = NearestNeighbors(n_neighbors=kmin, metric='euclidean', n_jobs=-1).fit(X)
-			knn = nbrs.kneighbors_graph(X, mode='distance')
-			connected_components = sp.csgraph.connected_components(knn, directed=False)[0]
+	# 	X = X[connected_element[index]]
+	# 	kmin = 5
+	# 	nbrs = NearestNeighbors(n_neighbors=kmin, metric='euclidean', n_jobs=-1).fit(X)
+	# 	knn = nbrs.kneighbors_graph(X, mode='distance')
+	# 	connected_components = sp.csgraph.connected_components(knn, directed=False)[0]
+	# 	while connected_components is not 1:
+	# 		kmin += 2
+	# 		nbrs = NearestNeighbors(n_neighbors=kmin, metric='euclidean', n_jobs=-1).fit(X)
+	# 		knn = nbrs.kneighbors_graph(X, mode='distance')
+	# 		connected_components = sp.csgraph.connected_components(knn, directed=False)[0]
 
-		dist = sp.csgraph.floyd_warshall(knn, directed=False)
+	# 	dist = sp.csgraph.floyd_warshall(knn, directed=False)
 
 
-	return dist, kmin, not_connected, connected_element, index
+	return dist, kmin
 
 def euclidean_distances(data):
 	row, col = np.shape(data)

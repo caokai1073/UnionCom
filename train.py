@@ -12,7 +12,7 @@ from utils import save_model
 import torch.backends.cudnn as cudnn
 cudnn.benchmark = True
 
-def train(Project, params, dataset, dist, P_joint, change, device):
+def train(Project, params, dataset, dist, P_joint, device):
 
 	optimizer = optim.RMSprop(Project.parameters(), lr=params.lr)
 	c_mse = nn.MSELoss()
@@ -34,71 +34,70 @@ def train(Project, params, dataset, dist, P_joint, change, device):
 
 	N = np.int(np.max([len(l) for l in dataset]))
 
-	for epo in range(params.epoch_total):
-		dataset_anchor = []
-		dist_anchor = []
-		cor_pairs = []
-		for i in range(dataset_num):
-			random_anchor = random.sample(range(0,row[i]), int(row[i]))
+	dataset_anchor = []
+	dist_anchor = []
+	cor_pairs = []
+	for i in range(dataset_num):
+		random_anchor = random.sample(range(0,row[i]), int(row[i]))
 
-			dataset_anchor.append(dataset[i][random_anchor])
-			dataset_anchor[i] = torch.from_numpy(dataset_anchor[i]).to(device).float()
-			
-			anchor_num = np.int(row[i])
-			dist_anchor.append(np.zeros([anchor_num, anchor_num]))
-
-			for j in range(anchor_num):
-				dist_anchor[i][j] = dist[i][random_anchor[j], random_anchor]
-
-		for i in range(dataset_num-1):
-			print("Match corresponding points between Dataset {} and Dataset {}".format(change[i], \
-				change[dataset_num-1]))
-			
-			cor_pairs.append(cor_pairs_match_Adam(dist_anchor[i], dist_anchor[-1], N, \
-					params, col[i], col[-1], epo, device))
+		dataset_anchor.append(dataset[i][random_anchor])
+		dataset_anchor[i] = torch.from_numpy(dataset_anchor[i]).to(device).float()
 		
-		print("Finished Matching!")
-		print("Begin training the Deep Neural Network")
-		for epoch in range(params.epoch_DNN):
-			len_dataloader = np.int(np.max(row)/params.batch_size)
-			if len_dataloader == 0:
-				print("Please set batch_size smaller!")
-				sys.exit()
-			for step in range(len_dataloader):
-				KL_loss = []
-				for i in range(dataset_num):
-					random_batch = np.random.randint(0, row[i], params.batch_size)
-					data = dataset[i][random_batch]
-					data = torch.from_numpy(data).to(device).float()
-					P_tmp = torch.zeros([params.batch_size, params.batch_size]).to(device)
-					for j in range(params.batch_size):
-						P_tmp[j] = P_joint[i][random_batch[j], random_batch]
-					P_tmp = P_tmp / torch.sum(P_tmp)
-					low_dim_data = Project(data, i)
-					Q_joint = Q_tsne(low_dim_data)
+		anchor_num = np.int(row[i])
+		dist_anchor.append(np.zeros([anchor_num, anchor_num]))
 
-					KL_loss.append(torch.sum(P_tmp * torch.log(P_tmp / Q_joint)))
+		for j in range(anchor_num):
+			dist_anchor[i][j] = dist[i][random_anchor[j], random_anchor]
 
-				feature_loss = np.array(0)
-				feature_loss = torch.from_numpy(feature_loss).to(device).float()
-				for i in range(dataset_num-1):
-					low_dim_anchor = Project(dataset_anchor[i], i)
-					low_dim_anchor_biggest_dataset = Project(dataset_anchor[dataset_num-1][cor_pairs[i]], len(dataset)-1)
-					feature_loss += c_mse(low_dim_anchor, low_dim_anchor_biggest_dataset)
-					min_norm = torch.min(torch.norm(low_dim_anchor), torch.norm(low_dim_anchor_biggest_dataset))
-					feature_loss += torch.abs(torch.norm(low_dim_anchor) - torch.norm(low_dim_anchor_biggest_dataset))/min_norm
+	for i in range(dataset_num-1):
+		print("Match corresponding points between Dataset {} and Dataset {}".format(i+1, \
+			len(dataset)))
+		
+		cor_pairs.append(cor_pairs_match_Adam(dist_anchor[i], dist_anchor[-1], N, \
+				params, col[i], col[-1], device))
+	
+	print("Finished Matching!")
+	print("Begin training the Deep Neural Network")
+	for epoch in range(params.epoch_DNN):
+		len_dataloader = np.int(np.max(row)/params.batch_size)
+		if len_dataloader == 0:
+			print("Please set batch_size smaller!")
+			sys.exit()
+		for step in range(len_dataloader):
+			KL_loss = []
+			for i in range(dataset_num):
+				random_batch = np.random.randint(0, row[i], params.batch_size)
+				data = dataset[i][random_batch]
+				data = torch.from_numpy(data).to(device).float()
+				P_tmp = torch.zeros([params.batch_size, params.batch_size]).to(device)
+				for j in range(params.batch_size):
+					P_tmp[j] = P_joint[i][random_batch[j], random_batch]
+				P_tmp = P_tmp / torch.sum(P_tmp)
+				low_dim_data = Project(data, i)
+				Q_joint = Q_tsne(low_dim_data)
 
-				loss = params.beta * feature_loss
-				for i in range(dataset_num):
-					loss += KL_loss[i]
+				KL_loss.append(torch.sum(P_tmp * torch.log(P_tmp / Q_joint)))
 
-				optimizer.zero_grad()
-				loss.backward()
-				optimizer.step()
+			feature_loss = np.array(0)
+			feature_loss = torch.from_numpy(feature_loss).to(device).float()
+			for i in range(dataset_num-1):
+				low_dim_anchor = Project(dataset_anchor[i], i)
+				low_dim_anchor_biggest_dataset = Project(dataset_anchor[dataset_num-1][cor_pairs[i]], len(dataset)-1)
+				feature_loss += c_mse(low_dim_anchor, low_dim_anchor_biggest_dataset)
+				min_norm = torch.min(torch.norm(low_dim_anchor), torch.norm(low_dim_anchor_biggest_dataset))
+				feature_loss += torch.abs(torch.norm(low_dim_anchor) - torch.norm(low_dim_anchor_biggest_dataset))/min_norm
 
-			if (epoch+1) % params.log_DNN == 0:
-				print("[{:4d}/{}] [{:4d}/{}]: loss={:4f}, feature_loss={:4f}".format(epo+1, params.epoch_total, epoch+1, \
-					params.epoch_DNN, loss.data.item(), feature_loss.data.item()))
+			loss = params.beta * feature_loss
+			for i in range(dataset_num):
+				loss += KL_loss[i]
+
+			optimizer.zero_grad()
+			loss.backward()
+			optimizer.step()
+
+		if (epoch+1) % params.log_DNN == 0:
+			print("epoch:[{:d}/{}]: loss:{:4f}, align_loss:{:4f}".format(epoch+1, \
+				params.epoch_DNN, loss.data.item(), feature_loss.data.item()))
 
 	return Project
 

@@ -34,7 +34,7 @@ def transfer_accuracy(domain1, domain2, type1, type2):
 			count += 1
 	return count / len(type1)
 
-def test_UnionCom(Project, dataset, datatype, change, params, device, test):
+def test_UnionCom(Project, dataset, datatype, params, device, test):
 	########## test
 	dataset_test = []
 	for i in range(len(dataset)):
@@ -42,15 +42,10 @@ def test_UnionCom(Project, dataset, datatype, change, params, device, test):
 	
 	# print("saving integrated data...")
 	data = []
-	integrated_data = []
 	for i in range(len(dataset_test)):
 		data.append(Project(dataset_test[i], i))
 		data[i] = data[i].detach().cpu().numpy()
 
-	permutation = np.argsort(change)
-	for i in permutation:
-		integrated_data.append(data[i])
-		# np.savetxt('integrated_data{}.txt'.format(change[i]),data[i])
 
 	if test:
 		for i in range(len(dataset_test)-1):
@@ -64,4 +59,4 @@ def test_UnionCom(Project, dataset, datatype, change, params, device, test):
 
 	print("unionCom Done!")
 
-	return integrated_data
+	return data

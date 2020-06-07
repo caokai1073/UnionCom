@@ -1,3 +1,11 @@
+'''
+---------------------
+UnionCom fucntions
+author: Kai Cao
+e-mail:caokai@amss.ac.cn
+MIT LICENSE
+---------------------
+'''
 import os
 import sys
 import numpy as np
@@ -10,11 +18,9 @@ from test import *
 # print(os.getcwd())
 
 class params():
-	epoch_total = 1
 	epoch_pd = 20000
 	epoch_DNN = 200
 	epsilon = 0.001
-	epsilon_a = 0.001
 	lr = 0.001
 	batch_size = 100
 	rho = 10
@@ -25,24 +31,18 @@ class params():
 	kmax = 20
 	beta = 1
 
-def fit_transform(dataset, datatype=None, epoch_total=1, epoch_pd=20000, epoch_DNN=200, \
-	epsilon=0.001, epsilon_a=0.001, lr=0.001, batch_size=100, rho=10, \
-	log_DNN=10, log_pd=500, manual_seed=8888, delay=0, beta=1, kmax=20, distance = 'geodesic', \
+def fit_transform(dataset, datatype=None, epoch_pd=20000, epoch_DNN=200, \
+	epsilon=0.001, lr=0.001, batch_size=100, rho=10, \
+	log_DNN=10, log_pd=500, manual_seed=666, delay=0, beta=1, kmax=20, distance = 'geodesic', \
 	output_dim=32, test=False):
 
 	'''
-	---------------------
-	UnionCom fucntions
-	author: caokai
-	---------------------
 	parameters:
 	dataset: list of datasets to be integrated. [dataset1, dataset2, ...].
 	datatype: list of data type. [datatype1, datatype2, ...].
-	epoch_total: total epoch of training, used when data subsampling is used.
 	epoch_pd: epoch of Prime-dual algorithm.
 	epoch_DNN: epoch of training Deep Neural Network.
 	epsilon: training rate of data matching matrix F.
-	epsilon_a: training rate of scaling factor alpha.
 	lr: training rate of DNN.
 	batch_size: training batch size of DNN.
 	beta: trade-off parameter of structure preserving and point matching.
@@ -50,19 +50,14 @@ def fit_transform(dataset, datatype=None, epoch_total=1, epoch_pd=20000, epoch_D
 	log_DNN: log step of training DNN.
 	log_pd: log step of prime dual method
 	manual_seed: random seed.
-	delay: delay steps of alpha.
-	usePercent: data subsampling percentage.
 	distance: mode of distance.
 	output_dim: output dimension of integrated data.
 	test: test the match fraction and label transfer accuracy, need datatype.
 	---------------------
 	'''
-
-	params.epoch_total = epoch_total
 	params.epoch_pd = epoch_pd
 	params.epoch_DNN = epoch_DNN
 	params.epsilon = epsilon
-	params.epsilon_a = epsilon_a
 	params.lr = lr
 	params.batch_size = batch_size
 	params.rho = rho
@@ -95,44 +90,24 @@ def fit_transform(dataset, datatype=None, epoch_total=1, epoch_pd=20000, epoch_D
 	#### compute the distance matrix and the largest connected component
 	dist = []
 	kmin = []
-	# min_max_scaler = preprocessing.MinMaxScaler()
+
 	for i in range(len(dataset)):
 			
 		dataset[i] = (dataset[i]- np.min(dataset[i])) / (np.max(dataset[i]) - np.min(dataset[i]))
 
-		# if params.Normalization == 'MinMax':
-		# 	dataset[i] = min_max_scaler.fit_transform(dataset[i])
-
 		if distance == 'geodesic':
-			dist_tmp, k_tmp, not_connected, connect_element, index = geodesic_distances(dataset[i], params.kmax)
+			dist_tmp, k_tmp = geodesic_distances(dataset[i], params.kmax)
 			dist.append(dist_tmp)
 			kmin.append(k_tmp)
-
-			if not_connected:
-				dataset[i] = dataset[i][connect_element[index]]
-				if test:
-					datatype[i] = datatype[i][connect_element[index]]
 
 		if distance == 'euclidean':
 			dist_tmp, k_tmp = euclidean_distances(dataset[i])
 			dist.append(dist_tmp)
 			kmin.append(k_tmp)
 
-	change = np.argsort([len(l) for l in dataset])
-	tmp = []
-	for i in range(len(dataset)):
-		tmp.append(dataset[change[i]])
-	dataset = tmp
 	if test:
-		datatype = np.array(datatype)[change]
-	dist = np.array(dist)[change]
-
-	print("Shape of biggest connected subgraph")	
-	for i in range(len(dataset)):
-		print("Dataset {}:".format(change[i]), np.shape(dataset[i]))
-	print("Number of neighbors of connected graph")
-	for i in range(len(dataset)):
-		print("Dataset {}:".format(change[i]), kmin[i])
+		datatype = np.array(datatype)
+	dist = np.array(dist)
 
 	P_joint = []
 	for i in range(len(dataset)):
@@ -141,6 +116,6 @@ def fit_transform(dataset, datatype=None, epoch_total=1, epoch_pd=20000, epoch_D
 	net = Project(input_dim, output_dim)
 	Project_net = init_model(net, device, restore=None)
 
-	result = train(Project_net, params, dataset, dist, P_joint, change, device)
+	result = train(Project_net, params, dataset, dist, P_joint, device)
 
-	return test_UnionCom(result, dataset, datatype, change, params, device, test)
+	return test_UnionCom(result, dataset, datatype, params, device, test)
