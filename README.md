@@ -22,7 +22,7 @@ pip3 install unioncom
 ## Parameters
 ```
 UnionCom.fit_transform(dataset, datatype=None, epoch_pd=30000, epoch_DNN=100, epsilon=0.001, 
-epsilon_a=0.001, lr=0.001, batch_size=100, rho=10, log_DNN=10, manual_seed=8888, delay=0, 
+lr=0.001, batch_size=100, rho=10, log_DNN=10, manual_seed=8888, delay=0, 
 beta=1, kmax=20, distance = 'geodesic', output_dim=32, test=False)
 ```
 ```
@@ -31,7 +31,6 @@ datatype: list of data type. [datatype1, datatype2, ...].
 epoch_pd: epoch of Prime-dual algorithm.
 epoch_DNN: epoch of training Deep Neural Network.
 epsilon: training rate of data matching matrix F.
-epsilon_a: training rate of scaling factor alpha.
 lr: training rate of DNN.
 batch_size: training batch size of DNN.
 rho: training damping term.
