@@ -13,7 +13,7 @@ torchvision 0.4.1
 scikit-learn 0.21.3  
 
 ## Install
-UnionCom software is available on the Python package index (PyPI), latest version 0.1.4. To install it using pip, simply type:
+UnionCom software is available on the Python package index (PyPI), latest version 0.1.5. To install it using pip, simply type:
 ```
 pip3 install unioncom
 ```
