@@ -1,7 +1,7 @@
 # UnionCom
 
 ## Paper
-[Unsupervised Topological Alignment for Single-Cell Multi-Omics Integration](https://www.biorxiv.org/content/10.1101/2020.02.02.931394v1)
+[Unsupervised Topological Alignment for Single-Cell Multi-Omics Integration](https://www.biorxiv.org/content/10.1101/2020.02.02.931394v2)
 
 ## Enviroment
 Ubuntu 18.04.3 LTS  
