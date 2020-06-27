@@ -14,10 +14,10 @@ class Project(nn.Module):
 		for i in range(num):
 			feature.append(
 			nn.Sequential(
-			nn.Linear(self.input_dim[i],3*self.input_dim[i]),
-			nn.BatchNorm1d(3*self.input_dim[i]),
+			nn.Linear(self.input_dim[i],2*self.input_dim[i]),
+			nn.BatchNorm1d(2*self.input_dim[i]),
 			nn.LeakyReLU(0.1, True),
-			nn.Linear(3*self.input_dim[i],2*self.input_dim[i]),
+			nn.Linear(2*self.input_dim[i],2*self.input_dim[i]),
 			nn.BatchNorm1d(2*self.input_dim[i]),
 			nn.LeakyReLU(0.1, True),
 			nn.Linear(2*self.input_dim[i],self.input_dim[i]),

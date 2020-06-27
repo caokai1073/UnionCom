@@ -5,9 +5,8 @@ import torch.optim as optim
 import torch.nn.functional as F 
 import random
 import sys
-from PrimeDual import *
-
-from utils import save_model
+from unioncom.PrimeDual import *
+from unioncom.utils import save_model
 
 import torch.backends.cudnn as cudnn
 cudnn.benchmark = True
@@ -57,7 +56,7 @@ def train(Project, params, dataset, dist, P_joint, device):
 				params, col[i], col[-1], device))
 	
 	print("Finished Matching!")
-	print("Begin training the Deep Neural Network")
+	print("Begin finding the embedded space")
 	for epoch in range(params.epoch_DNN):
 		len_dataloader = np.int(np.max(row)/params.batch_size)
 		if len_dataloader == 0:

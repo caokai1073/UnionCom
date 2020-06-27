@@ -43,11 +43,11 @@ def save_model(net, model_root, filename):
 	print("save pretrained model to: {}".format(os.path.join(model_root, filename)))
 
 #-||x_i-x_j||^2
-def neg_squared_euc_dists(X):
-    sum_X = np.sum(np.square(X), 1)
-    D = np.add(np.add(-2 * np.dot(X, X.T), sum_X).T, sum_X)
+# def neg_squared_euc_dists(X):
+#     sum_X = np.sum(np.square(X), 1)
+#     D = np.add(np.add(-2 * np.dot(X, X.T), sum_X).T, sum_X)
 
-    return -D
+#     return -D
 
 #input -||x_i-x_j||^2/2*sigma^2, compute softmax
 def softmax(D, diag_zero=True):
@@ -102,7 +102,8 @@ def p_conditional_to_joint(P):
 	return (P + P.T) / (2. * P.shape[0])
 
 def p_joint(X, target_perplexity):
-    distances = neg_squared_euc_dists(X)
+    # distances = neg_squared_euc_dists(X)
+    distances = -X
     sigmas = find_optimal_sigmas(distances, target_perplexity)
     p_conditional = calc_P(distances, sigmas)
     P = p_conditional_to_joint(p_conditional)
@@ -117,14 +118,13 @@ def q_tsne(Y):
 def geodesic_distances(X, kmax):
 	kmin = 5
 	nbrs = NearestNeighbors(n_neighbors=kmin, metric='euclidean', n_jobs=-1).fit(X)
-	# distances, indices = nbrs.kneighbors(X)
 	knn = nbrs.kneighbors_graph(X, mode='distance')
 	connected_components = sp.csgraph.connected_components(knn, directed=False)[0]
-	not_connected = False
-	index = 0
+	# not_connected False
+	# index = 0
 	while connected_components is not 1:
 		if kmin > np.max((kmax, 0.01*len(X))):
-			not_connected = True
+			# not_connected = True
 			break
 		kmin += 2
 		nbrs = NearestNeighbors(n_neighbors=kmin, metric='euclidean', n_jobs=-1).fit(X)
@@ -134,7 +134,7 @@ def geodesic_distances(X, kmax):
 	dist = sp.csgraph.floyd_warshall(knn, directed=False)
 
 	dist_max = np.nanmax(dist[dist != np.inf])
-	dist[dist > dist_max] = dist_max
+	dist[dist > dist_max] = 2*dist_max
 
 	# connected_element = []
 	# if not_connected:

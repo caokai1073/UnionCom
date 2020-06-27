@@ -13,24 +13,17 @@ def cor_pairs_match_Adam(Kx, Kz, N, params, p1, p2, device):
 	n = np.shape(Kz)[0]
 	F = np.zeros((m,n))
 	F = torch.from_numpy(F).float().to(device)
-	Im = np.ones((m,1))
-	Im = torch.from_numpy(Im).float().to(device)
-	In = np.ones((n,1))
-	In = torch.from_numpy(In).float().to(device)
-	Lambda = np.zeros((n,1))
-	Lambda = torch.from_numpy(Lambda).float().to(device)
-	Mu = np.zeros((m,1))
-	Mu = torch.from_numpy(Mu).float().to(device)
-	S = np.zeros((n,1))
-	S = torch.from_numpy(S).float().to(device)
+	Im = torch.ones((m,1)).float().to(device)
+	In = torch.ones((n,1)).float().to(device)
+	Lambda = torch.zeros((n,1)).float().to(device)
+	Mu = torch.zeros((m,1)).float().to(device)
+	S = torch.zeros((n,1)).float().to(device)
 	a = np.sqrt(p2/p1)
 	pho1 = 0.9
 	pho2 = 0.999
 	delta = 10e-8
-	Fst_moment = np.zeros((m,n))
-	Fst_moment = torch.from_numpy(Fst_moment).float().to(device)
-	Snd_moment = np.zeros((m,n))
-	Snd_moment = torch.from_numpy(Snd_moment).float().to(device)
+	Fst_moment = torch.zeros((m,n)).float().to(device)
+	Snd_moment = torch.zeros((m,n)).float().to(device)
 	i=0
 	while(i<params.epoch_pd):
 		grad = 2*torch.mm(F, torch.mm(Kz, torch.mm(torch.t(F), torch.mm(F, torch.t(Kz))))) \
@@ -61,9 +54,8 @@ def cor_pairs_match_Adam(Kx, Kz, N, params, p1, p2, device):
 			a = torch.trace(torch.mm(torch.t(Kx), torch.mm(torch.mm(F, Kz), torch.t(F)))) / \
 			torch.trace(torch.mm(torch.t(Kx), Kx))
 
-		norm2 = torch.norm(a*Kx - torch.mm(torch.mm(F, Kz), torch.t(F)))
-		
 		if (i+1) % params.log_pd == 0:
+			norm2 = torch.norm(a*Kx - torch.mm(torch.mm(F, Kz), torch.t(F)))
 			print("epoch:[{:d}/{:d}] err:{:.4f} alpha:{:.4f}".format(i+1, params.epoch_pd, norm2.data.item(), a))
 
 	F = F.cpu().numpy()
