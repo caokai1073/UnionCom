@@ -10,10 +10,10 @@ import os
 import sys
 import numpy as np
 from sklearn import preprocessing
-from unioncom.model import *
-from unioncom.train import train
-from unioncom.utils import *
-from unioncom.test import *
+from model import *
+from train import train
+from utils import *
+from test import *
 
 # print(os.getcwd())
 
