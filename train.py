@@ -5,8 +5,8 @@ import torch.optim as optim
 import torch.nn.functional as F 
 import random
 import sys
-from unioncom.PrimeDual import *
-from unioncom.utils import save_model
+from PrimeDual import *
+from utils import save_model
 
 import torch.backends.cudnn as cudnn
 cudnn.benchmark = True
