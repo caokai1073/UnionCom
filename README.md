@@ -21,7 +21,7 @@ pip3 install unioncom
 
 ## Parameters
 ```
-UnionCom.fit_transform(dataset, datatype=None, epoch_pd=30000, epoch_DNN=100, epsilon=0.001, 
+UnionCom.fit_transform(dataset, datatype=None, epoch_pd=20000, epoch_DNN=200, epsilon=0.001, 
 lr=0.001, batch_size=100, rho=10, log_DNN=10, manual_seed=666, delay=0, 
 beta=1, kmax=20, distance = 'geodesic', output_dim=32, test=False)
 ```
