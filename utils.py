@@ -27,7 +27,7 @@ def init_model(net, device, restore):
 		net.restored = True
 		print("Restore model from: {}".format(os.path.abspath(restore)))
 	else:
-		print("No trained model, train UnionCom from scratch.")
+		pass
 
 	if torch.cuda.is_available():
 		cudnn.benchmark =True

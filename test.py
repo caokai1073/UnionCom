@@ -34,29 +34,13 @@ def transfer_accuracy(domain1, domain2, type1, type2):
 			count += 1
 	return count / len(type1)
 
-def test_UnionCom(Project, dataset, datatype, params, device, test):
-	########## test
-	dataset_test = []
-	for i in range(len(dataset)):
-		dataset_test.append(torch.from_numpy(dataset[i]).float().to(device))
-	
-	# print("saving integrated data...")
-	data = []
-	for i in range(len(dataset_test)):
-		data.append(Project(dataset_test[i], i))
-		data[i] = data[i].detach().cpu().numpy()
+def test_UnionCom(integrated_data, datatype, params, device, test):
 
+	for i in range(len(integrated_data)-1):
+		# fraction = align_fraction(data[i], data[-1], params)
+		# print("average fraction:")
+		# print(fraction)
 
-	if test:
-		for i in range(len(dataset_test)-1):
-			# fraction = align_fraction(data[i], data[-1], params)
-			# print("average fraction:")
-			# print(fraction)
-
-			acc = transfer_accuracy(data[i], data[-1], datatype[i], datatype[-1])
-			print("label transfer accuracy:")
-			print(acc)
-
-	print("unionCom Done!")
-
-	return data
+		acc = transfer_accuracy(integrated_data[i], integrated_data[-1], datatype[i], datatype[-1])
+		print("label transfer accuracy:")
+		print(acc)

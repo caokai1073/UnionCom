@@ -3,14 +3,14 @@ import random
 import torch
 import numpy as np
 
-def cor_pairs_match_Adam(Kx, Kz, N, params, p1, p2, device):
+def cor_pairs_match(Kx, Ky, N, params, p1, p2, device):
 	print("use device:", device)
 	Kx = Kx / N 
-	Kz = Kz / N
+	Ky = Ky / N
 	Kx = torch.from_numpy(Kx).float().to(device)
-	Kz = torch.from_numpy(Kz).float().to(device)
+	Ky = torch.from_numpy(Ky).float().to(device)
 	m = np.shape(Kx)[0]
-	n = np.shape(Kz)[0]
+	n = np.shape(Ky)[0]
 	F = np.zeros((m,n))
 	F = torch.from_numpy(F).float().to(device)
 	Im = torch.ones((m,1)).float().to(device)
@@ -26,9 +26,8 @@ def cor_pairs_match_Adam(Kx, Kz, N, params, p1, p2, device):
 	Snd_moment = torch.zeros((m,n)).float().to(device)
 	i=0
 	while(i<params.epoch_pd):
-		grad = 2*torch.mm(F, torch.mm(Kz, torch.mm(torch.t(F), torch.mm(F, torch.t(Kz))))) \
-		+ 2*torch.mm(F, torch.mm(torch.t(Kz), torch.mm(torch.t(F), torch.mm(F, Kz)))) \
-		- 2*a*torch.mm(torch.t(Kx), torch.mm(F, Kz)) - 2*a*torch.mm(Kx, torch.mm(F,torch.t(Kz))) + torch.mm(Mu, torch.t(In)) \
+		grad = 4*torch.mm(F, torch.mm(Ky, torch.mm(torch.t(F), torch.mm(F, Ky)))) \
+		- 4*a*torch.mm(Kx, torch.mm(F,Ky)) + torch.mm(Mu, torch.t(In)) \
 		+ torch.mm(Im, torch.t(Lambda)) + params.rho*(torch.mm(F, torch.mm(In, torch.t(In))) - torch.mm(Im, torch.t(In)) \
 		+ torch.mm(Im, torch.mm(torch.t(Im), F)) + torch.mm(Im, torch.t(S-In)))
 		i += 1
@@ -50,16 +49,15 @@ def cor_pairs_match_Adam(Kx, Kz, N, params, p1, p2, device):
 
 		#### if scaling factor a changes too fast, we can delay the update of speed.
 		if i>=params.delay:
-
-			a = torch.trace(torch.mm(torch.t(Kx), torch.mm(torch.mm(F, Kz), torch.t(F)))) / \
-			torch.trace(torch.mm(torch.t(Kx), Kx))
+			a = torch.trace(torch.mm(Kx, torch.mm(torch.mm(F, Ky), torch.t(F)))) / \
+			torch.trace(torch.mm(Kx, Kx))
 
 		if (i+1) % params.log_pd == 0:
-			norm2 = torch.norm(a*Kx - torch.mm(torch.mm(F, Kz), torch.t(F)))
+			norm2 = torch.norm(a*Kx - torch.mm(torch.mm(F, Ky), torch.t(F)))
 			print("epoch:[{:d}/{:d}] err:{:.4f} alpha:{:.4f}".format(i+1, params.epoch_pd, norm2.data.item(), a))
 
 	F = F.cpu().numpy()
-	pairs = np.zeros(m)
-	for i in range(m):
-		pairs[i] = np.argsort(F[i])[-1]
-	return pairs
+	# pairs = np.zeros(m)
+	# for i in range(m):
+	# 	pairs[i] = np.argsort(F[i])[-1]
+	return F

@@ -7,30 +7,23 @@
 Ubuntu 18.04.3 LTS  
 python >= 3.6
 
-numpy>=1.17.3  
-torch>=1.3.0  
-torchvision>=0.4.1  
-scikit-learn>=0.21.3  
-scipy>=1.5.0
-matplotlib>=3.2.1
+numpy 1.17.3  
+torch 1.3.0  
+torchvision 0.4.1  
+scikit-learn 0.21.3  
 
 ## Install
-UnionCom software is available on the Python package index (PyPI), latest version 0.2.0. To install it using pip, simply type:
+UnionCom software is available on the Python package index (PyPI), latest version 0.1.5. To install it using pip, simply type:
 ```
 pip3 install unioncom
 ```
 
-## version 0.2.0
-+ Software optimization.
-+ Split function train into functions Match and Project.
-+ Use Kuhn-Munkres to find optimal pairs between datasets instead of parbabilistic matrix matching.
-+ Add a new parameter "project" to provide options for barycentric projection.
 
 ## Parameters
 ```
-UnionCom.fit_transform(dataset, datatype=None, epoch_pd=20000, epoch_DNN=200, epsilon=0.001, 
+UnionCom.fit_transform(dataset, datatype=None, epoch_pd=30000, epoch_DNN=100, epsilon=0.001, 
 lr=0.001, batch_size=100, rho=10, log_DNN=10, manual_seed=666, delay=0, 
-beta=1, kmax=20, distance = 'geodesic', project='tsne', output_dim=32, test=False)
+beta=1, kmax=20, distance = 'geodesic', output_dim=32, test=False)
 ```
 ```
 dataset: list of datasets to be integrated. [dataset1, dataset2, ...].
@@ -47,7 +40,6 @@ delay: delay steps of alpha. (from 0 to epoch_pd)
 beta: trade-off parameter of structure preserving and point matching.
 kmax: maximum value of knn when constructing geodesic distance matrix
 distance: mode of distance. [geodesic(suggested for multimodal integration), euclidean(suggested for batch correction)]
-project:　mode of project, ['tsne', 'barycentric'], default is tsne.
 output_dim: output dimension of integrated data.
 test: test the match fraction and label transfer accuracy, need datatype.
 ```
