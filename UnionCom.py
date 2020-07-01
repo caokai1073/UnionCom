@@ -34,7 +34,6 @@ class params():
 	col = []
 	row = []
 	output_dim = 32
-
 	
 def fit_transform(dataset, datatype=None, epoch_pd=20000, epoch_DNN=200, \
 	epsilon=0.001, lr=0.001, batch_size=100, rho=10, beta=1,\
@@ -131,7 +130,6 @@ def fit_transform(dataset, datatype=None, epoch_pd=20000, epoch_DNN=200, \
 	else:
 		integrated_data = project_barycentric(dataset, match_result)	
 
-
 	print("---------------------------------")
 	print("unionCom Done!")
 	time2 = time.time()
@@ -141,3 +139,24 @@ def fit_transform(dataset, datatype=None, epoch_pd=20000, epoch_DNN=200, \
 			test_UnionCom(integrated_data, datatype, params, device, test)
 
 	return integrated_data
+
+def PCA_visualize(data, integrated_data, datatype=None):
+
+	if datatype is not None:
+		visualize(data, integrated_data, datatype)
+	else:
+		visualize(data, integrated_data)
+
+def test_label_transfer_accuracy(integrated_data, datatype):
+
+	test_UnionCom(integrated_data, datatype)
+
+
+
+
+
+
+
+
+
+
