@@ -13,15 +13,17 @@ torchvision 0.4.1
 scikit-learn 0.21.3  
 
 ## Install
-UnionCom software is available on the Python package index (PyPI), latest version 0.2.0. To install it using pip, simply type:
+UnionCom software is available on the Python package index (PyPI), latest version 0.2.1. To install it using pip, simply type:
 ```
 pip3 install unioncom
 ```
-## Version 0.2.0
+## v0.2.1
 + Software optimization.
 + Split function "train" into functions "Match" and "Project".
 + Use Kuhn-Munkres algorithm to find optimal pairs between datasets instead of parbabilistic matrix matching.
 + Add a new parameter "project" to provide options for barycentric projection.
++ Separate "test_label_transfer_accuracy" function from "fit_transform" function
++ fix some bugs
 
 ## Parameters
 ```
@@ -46,7 +48,7 @@ kmax: maximum value of knn when constructing geodesic distance matrix.
 distance: mode of distance. [geodesic(suggested for multimodal integration), euclidean(suggested for batch correction)].
 project:　mode of project, ['tsne', 'barycentric'], default is tsne.
 output_dim: output dimension of integrated data.
-test: test the match fraction and label transfer accuracy, need datatype.
+test: test the label transfer accuracy, need datatype.
 ```
 
 ## Integrate data
@@ -60,7 +62,9 @@ data_0 = np.loadtxt("data_0.txt")
 ...
 data_N = np.loadtxt("data_N.txt")
 
-integrated_data = UnionCom.fit_transform([data_0, ..., data_N])
+data = [data_0, ..., data_N]
+
+integrated_data = UnionCom.fit_transform(data)
 
 matched_data_0 = integrated_data[0]
 ...
@@ -68,17 +72,24 @@ matched_data_N = integrated_data[N]
 ```
 
 ## Test label transfer accuracy
+To test the label transfer accuracy, you need to input cell types of ```data_0.txt, ... ,data_N.txt``` as ```type_0.txt, ... ,type_N.txt```
 ```
-from unioncom import UnionCom
-import numpy as np
-
-data_0 = np.loadtxt("data_0.txt")
-label_0 = np.loadtxt("label_0.txt")
+type_0 = np.loadtxt("type_0.txt")
 ...
-data_N = np.loadtxt("data_N.txt")
-label_N = np.loadtxt("label_N.txt")
+type_N = np.loadtxt("type_N.txt")
+datatype = [type_0,...,type_N]
 
-integrated_data = UnionCom.fit_transform([data_0, ..., data_N], [label_0,...,label_N], test=True)
+UnionCom.test(data, datatype, test=True)
+```
+
+## Visualization by PCA
+```
+type_0 = type_0.astype(np.int)
+...
+type_N = type_N.astype(np.int)
+datatype = [type_0,...,type_N]
+
+UnionCom.PCA_visualize(data, integrated_data, datatype)
 ```
 
 ## Example
