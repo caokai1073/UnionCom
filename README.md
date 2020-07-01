@@ -25,6 +25,18 @@ pip3 install unioncom
 + Separate "test_label_transfer_accuracy" function from "fit_transform" function
 + fix some bugs
 
+## Examples (jupyter notebook)
+
++ [Integration of simulations in UnionCom paper](https://github.com/caokai1073/UnionCom/blob/master/Examples/Simulation_example.ipynb)
+
++ [Integration of simulations in MMD-MA paper](https://github.com/caokai1073/UnionCom/blob/master/Examples/Simulation_data_from_MMD-MA.ipynb)
+
++ [batch correction](https://github.com/caokai1073/UnionCom/blob/master/Examples/Batch_correction_example.ipynb)
+
++ [integration multi-omics data](https://github.com/caokai1073/UnionCom/blob/master/Examples/scGEM_and_scNMT_example_example.ipynb)
+
++ [integration of datasets with specific cells](https://github.com/caokai1073/UnionCom/blob/master/Examples/dataset-specific_example.ipynb)
+
 ## Parameters
 ```
 UnionCom.fit_transform(dataset, datatype=None, epoch_pd=30000, epoch_DNN=100, epsilon=0.001, 
@@ -91,16 +103,5 @@ datatype = [type_0,...,type_N]
 
 UnionCom.PCA_visualize(data, integrated_data, datatype)
 ```
-
-## Example
-We obtained **Cheow_expression.csv** and **Cheow_methylation.csv** from https://github.com/jw156605/MATCHER
-
-![result](https://github.com/caokai1073/UnionCom/blob/master/result.jpg)
-
-
-
-
-
-
 
 
