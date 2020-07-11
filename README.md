@@ -77,10 +77,11 @@ type_0 = type_0.astype(np.int)
 type_N = type_N.astype(np.int)
 datatype = [type_0,...,type_N]
 
-UnionCom.PCA_visualize(data, integrated_data, datatype)
+UnionCom.PCA_visualize(data, integrated_data) # without datatype
+UnionCom.PCA_visualize(data, integrated_data, datatype) # with datatype
 ```
 
-## Parameters
+## Parameters of ```UnionCom.fit_transform```
 
 The list of parameters is given blow:
 > + ```epoch_pd```: epoch of Prime-dual algorithm (default=20000).
