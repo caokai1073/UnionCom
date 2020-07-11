@@ -43,30 +43,36 @@ UnionCom.fit_transform(dataset, datatype=None, epoch_pd=30000, epoch_DNN=100, ep
 lr=0.001, batch_size=100, rho=10, log_DNN=10, manual_seed=666, delay=0, 
 beta=1, kmax=20, distance = 'geodesic', project='tsne', output_dim=32, test=False)
 ```
-```
-dataset: list of datasets to be integrated. [dataset1, dataset2, ...].
-datatype: list of data type. [datatype1, datatype2, ...].
-epoch_pd: epoch of Prime-dual algorithm.
-epoch_DNN: epoch of training Deep Neural Network.
-epsilon: training rate of data matching matrix F.
-lr: training rate of DNN.
-batch_size: training batch size of DNN.
-rho: training damping term.
-log_DNN: log step of training DNN.
-manual_seed: random seed.
-delay: delay steps of alpha. (from 0 to epoch_pd)
-beta: trade-off parameter of structure preserving and point matching.
-kmax: maximum value of knn when constructing geodesic distance matrix.
-distance: mode of distance. [geodesic(suggested for multimodal integration), euclidean(suggested for batch correction)].
-project:　mode of project, ['tsne', 'barycentric'], default is tsne.
-output_dim: output dimension of integrated data.
-test: test the label transfer accuracy, need datatype.
-```
+The list of parameters is given blow:
+> + ```epoch_pd```: epoch of Prime-dual algorithm (default=20000).
+> + ```epoch_DNN```: epoch of training Deep Neural Network (default=200).
+> + ```epsilon```: training rate of data matching matrix F (default=0.001).
+> + ```lr```: training rate of DNN (default=0.001).
+> + ```batch_size```: training batch size of DNN (default=100).
+> + ```rho```: training damping term (default=10).
+> + ```delay```: delay steps of alpha (default=0).
+> + ```beta```: trade-off parameter of structure preserving and point matching (default=1).
+> + ```kmax```: maximum value of knn when constructing geodesic distance matrix (default=20).
+> + ```output_dim```: output dimension of integrated data (default=32).
+
+The other parameters include:
+
+> + ```dataset```: list of datasets to be integrated. [dataset1, dataset2, ...].
+> + ```datatype```: list of data type. [datatype1, datatype2, ...].
+> + ```log_pd```: log step of Prime Dual (default=1000).
+> + ```log_DNN```: log step of training DNN (default=10).
+> + ```manual_seed```: random seed (default=666).
+> + ```distance```: mode of distance. ['geodesic' (suggested for multimodal integration), 'euclidean'(suggested for batch correction)] (default='geodesic').
+> + ```project```:　mode of project, ['tsne', 'barycentric'] (default='tsne').
+> + ```test```: test the label transfer accuracy, need datatype (default='False').
+
+
 
 ## Integrate data
 Each row should contain the measured values for a single cell, and each column should contain the values of a feature across cells.
 ```data_0.txt, ... ,data_N.txt``` to be integrated, use
-```
+
+```python
 from unioncom import UnionCom
 import numpy as np
 
@@ -85,7 +91,7 @@ matched_data_N = integrated_data[N]
 
 ## Test label transfer accuracy
 To test the label transfer accuracy, you need to input cell types of ```data_0.txt, ... ,data_N.txt``` as ```type_0.txt, ... ,type_N.txt```
-```
+```python
 type_0 = np.loadtxt("type_0.txt")
 ...
 type_N = np.loadtxt("type_N.txt")
@@ -95,7 +101,7 @@ UnionCom.test_label_transfer_accuracy(data, datatype, test=True)
 ```
 
 ## Visualization by PCA
-```
+```python
 type_0 = type_0.astype(np.int)
 ...
 type_N = type_N.astype(np.int)
