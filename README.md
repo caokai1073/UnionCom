@@ -33,7 +33,7 @@ pip3 install unioncom
 
 + [Batch correction](https://github.com/caokai1073/UnionCom/blob/master/Examples/Batch_correction_example.ipynb)
 
-+ [Integration multi-omics data](https://github.com/caokai1073/UnionCom/blob/master/Examples/scGEM_and_scNMT_example.ipynb)
++ [Integration of multi-omics data](https://github.com/caokai1073/UnionCom/blob/master/Examples/scGEM_and_scNMT_example.ipynb)
 
 + [Integration of datasets with specific cells](https://github.com/caokai1073/UnionCom/blob/master/Examples/dataset-specific_example.ipynb)
 
