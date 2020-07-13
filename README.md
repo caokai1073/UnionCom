@@ -104,7 +104,6 @@ The other parameters include:
 > + ```manual_seed```: random seed (default=666).
 > + ```distance```: mode of distance. ['geodesic' (suggested for multimodal integration), 'euclidean'(suggested for batch correction)] (default='geodesic').
 > + ```project```: mode of project, ['tsne', 'barycentric'] (default='tsne').
-> + ```test```: test the label transfer accuracy, need datatype (default='False').
 
 
 
