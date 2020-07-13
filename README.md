@@ -67,7 +67,7 @@ type_0 = np.loadtxt("type_0.txt")
 type_N = np.loadtxt("type_N.txt")
 datatype = [type_0,...,type_N]
 
-UnionCom.test_label_transfer_accuracy(data, datatype, test=True)
+UnionCom.test_label_transfer_accuracy(data, datatype)
 ```
 
 ## Visualization by PCA
