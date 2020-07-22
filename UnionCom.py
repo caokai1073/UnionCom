@@ -141,12 +141,3 @@ def test_label_transfer_accuracy(integrated_data, datatype):
 
 	test_UnionCom(integrated_data, datatype)
 
-
-
-
-
-
-
-
-
-
