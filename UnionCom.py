@@ -135,8 +135,8 @@ def fit_transform(dataset, datatype=None, epoch_pd=20000, epoch_DNN=200, \
 	time2 = time.time()
 	print('time:', time2-time1, 'seconds')
 
-	if test:
-			test_UnionCom(integrated_data, datatype, params, device, test)
+# 	if test:
+# 		test_UnionCom(integrated_data, datatype, params, device, test)
 
 	return integrated_data
 
