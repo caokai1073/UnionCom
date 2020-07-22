@@ -35,15 +35,14 @@ class params():
 	row = []
 	output_dim = 32
 	
-def fit_transform(dataset, datatype=None, epoch_pd=20000, epoch_DNN=200, \
+def fit_transform(dataset, epoch_pd=20000, epoch_DNN=200, \
 	epsilon=0.001, lr=0.001, batch_size=100, rho=10, beta=1,\
 	log_DNN=50, log_pd=1000, manual_seed=666, delay=0, kmax=20,  \
-	output_dim=32, test=False, distance = 'geodesic', project='tsne'):
+	output_dim=32, distance = 'geodesic', project='tsne'):
 
 	'''
 	parameters:
 	dataset: list of datasets to be integrated. [dataset1, dataset2, ...].
-	datatype: list of data type. [datatype1, datatype2, ...].
 	epoch_pd: epoch of Prime-dual algorithm.
 	epoch_DNN: epoch of training Deep Neural Network.
 	epsilon: training rate of data matching matrix F.
@@ -56,7 +55,6 @@ def fit_transform(dataset, datatype=None, epoch_pd=20000, epoch_DNN=200, \
 	manual_seed: random seed.
 	distance: mode of distance, ['geodesic, euclidean'], default is geodesic.
 	output_dim: output dimension of integrated data.
-	test: test the match fraction and label transfer accuracy, need datatype.
 	project:　mode of project, ['tsne', 'barycentric'], default is tsne.
 	---------------------
 	'''
@@ -78,11 +76,6 @@ def fit_transform(dataset, datatype=None, epoch_pd=20000, epoch_DNN=200, \
 	init_random_seed(manual_seed)
 	device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 	dataset_num = len(dataset)
-
-	if test: 
-		for i in range(dataset_num):
-			datatype[i] = datatype[i].astype(np.int)
-		datatype = np.array(datatype)
 
 	row = []
 	col = []
@@ -134,9 +127,6 @@ def fit_transform(dataset, datatype=None, epoch_pd=20000, epoch_DNN=200, \
 	print("unionCom Done!")
 	time2 = time.time()
 	print('time:', time2-time1, 'seconds')
-
-# 	if test:
-# 		test_UnionCom(integrated_data, datatype, params, device, test)
 
 	return integrated_data
 
