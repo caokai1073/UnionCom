@@ -18,10 +18,10 @@ UnionCom software is available on the Python package index (PyPI), latest versio
 pip3 install unioncom
 ```
 ## v0.2.1
-+ Software optimization.
-+ Split function "train" into functions "Match" and "Project".
-+ Use Kuhn-Munkres algorithm to find optimal pairs between datasets instead of parbabilistic matrix matching.
-+ Add a new parameter "project" to provide options for barycentric projection.
++ Software optimization
++ Split function "train" into functions "Match" and "Project"
++ Use Kuhn-Munkres algorithm to find optimal pairs between datasets instead of parbabilistic matrix matching
++ Add a new parameter "project" to provide options for barycentric projection
 + Separate "test_label_transfer_accuracy" function from "fit_transform" function
 + fix some bugs
 
@@ -83,7 +83,7 @@ UnionCom.PCA_visualize(data, integrated_data, datatype) # with datatype
 
 ## Parameters of ```UnionCom.fit_transform```
 
-The list of parameters is given blow:
+The list of parameters is given below:
 > + ```epoch_pd```: epoch of Prime-dual algorithm (default=20000).
 > + ```epoch_DNN```: epoch of training Deep Neural Network (default=200).
 > + ```epsilon```: training rate of data matching matrix F (default=0.001).
@@ -96,7 +96,6 @@ The list of parameters is given blow:
 > + ```output_dim```: output dimension of integrated data (default=32).
 
 The other parameters include:
-
 > + ```dataset```: list of datasets to be integrated. [dataset1, dataset2, ...].
 > + ```datatype```: list of data type. [datatype1, datatype2, ...].
 > + ```log_pd```: log step of Prime Dual (default=1000).
