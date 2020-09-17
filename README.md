@@ -58,9 +58,7 @@ data_0 = np.loadtxt("data_0.txt")
 ...
 data_N = np.loadtxt("data_N.txt")
 
-data = [data_0, ..., data_N]
-
-integrated_data = UnionCom.fit_transform(data)
+integrated_data = UnionCom.fit_transform([data_0, ..., data_N])
 
 matched_data_0 = integrated_data[0]
 ...
@@ -73,9 +71,8 @@ To test the label transfer accuracy, you need to input cell types of ```data_0.t
 type_0 = np.loadtxt("type_0.txt")
 ...
 type_N = np.loadtxt("type_N.txt")
-datatype = [type_0,...,type_N]
 
-UnionCom.test_label_transfer_accuracy(integrated_data, datatype)
+UnionCom.test_label_transfer_accuracy(integrated_data, [type_0,...,type_N])
 ```
 
 ## Visualization by PCA
@@ -83,10 +80,10 @@ UnionCom.test_label_transfer_accuracy(integrated_data, datatype)
 type_0 = type_0.astype(np.int)
 ...
 type_N = type_N.astype(np.int)
-datatype = [type_0,...,type_N]
 
-UnionCom.PCA_visualize(data, integrated_data) # without datatype
-UnionCom.PCA_visualize(data, integrated_data, datatype) # with datatype
+
+UnionCom.Visualize([data_0, ..., data_N], integrated_data, mode='PCA') # without datatype
+UnionCom.Visualize([data_0, ..., data_N], integrated_data, [type_0,...,type_N], mode='PCA) # with datatype
 ```
 
 ## Parameters of ```UnionCom.fit_transform```
