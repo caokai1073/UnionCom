@@ -22,7 +22,7 @@ pip3 install unioncom
 
 ## v0.2.2
 + Fix some bugs;
-+ Provide PCA, TSNE and UMAP visulalization;
++ Change function "PCA_visualize" to "Visualize", and provide PCA, TSNE and UMAP for visulalization;
 + Add a function to find maximum connected subgraph;
 
 ## v0.2.1
