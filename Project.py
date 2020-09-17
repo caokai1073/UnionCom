@@ -10,7 +10,7 @@ from utils import init_model
 import torch.backends.cudnn as cudnn
 cudnn.benchmark = True
 
-def project_tsne(params, dataset, pairs, dist, P_joint, device):
+def project_tsne(params, dataset, pairs_x, pairs_y, dist, P_joint, device):
 	print("---------------------------------")
 	print("Begin finding the embedded space")
 
@@ -49,8 +49,8 @@ def project_tsne(params, dataset, pairs, dist, P_joint, device):
 			feature_loss = np.array(0)
 			feature_loss = torch.from_numpy(feature_loss).to(device).float()
 			for i in range(dataset_num-1):
-				low_dim = Project_DNN(dataset[i], i)
-				low_dim_biggest_dataset = Project_DNN(dataset[dataset_num-1][pairs[i]], len(dataset)-1)
+				low_dim = Project_DNN(dataset[i][pairs_x[i]], i)
+				low_dim_biggest_dataset = Project_DNN(dataset[dataset_num-1][pairs_y[i]], len(dataset)-1)
 				feature_loss += c_mse(low_dim, low_dim_biggest_dataset)
 				# min_norm = torch.min(torch.norm(low_dim), torch.norm(low_dim_biggest_dataset))
 				# feature_loss += torch.abs(torch.norm(low_dim) - torch.norm(low_dim_biggest_dataset))/min_norm

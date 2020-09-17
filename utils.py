@@ -120,11 +120,8 @@ def geodesic_distances(X, kmax):
 	nbrs = NearestNeighbors(n_neighbors=kmin, metric='euclidean', n_jobs=-1).fit(X)
 	knn = nbrs.kneighbors_graph(X, mode='distance')
 	connected_components = sp.csgraph.connected_components(knn, directed=False)[0]
-	# not_connected False
-	# index = 0
 	while connected_components is not 1:
-		if kmin > np.max((kmax, 0.01*len(X))):
-			# not_connected = True
+		if kmin > np.max((kmax, 0.01*len(X))):		
 			break
 		kmin += 2
 		nbrs = NearestNeighbors(n_neighbors=kmin, metric='euclidean', n_jobs=-1).fit(X)
@@ -136,50 +133,70 @@ def geodesic_distances(X, kmax):
 	dist_max = np.nanmax(dist[dist != np.inf])
 	dist[dist > dist_max] = 2*dist_max
 
-	# connected_element = []
-	# if not_connected:
-	# 	inf_matrix = []
-		
-	# 	for i in range(len(X)):
-	# 		inf_matrix.append(list(chain.from_iterable(np.argwhere(np.isinf(dist[i])))))
-
-		
-	# 	for i in range(len(X)):
-	# 		if i==0:
-	# 			connected_element.append([])
-	# 			connected_element[0].append(i)
-	# 		else:
-	# 			for j in range(len(connected_element)+1):
-	# 				if j == len(connected_element):
-	# 					connected_element.append([])
-	# 					connected_element[j].append(i)
-	# 					break
-	# 				if inf_matrix[i] == inf_matrix[connected_element[j][0]]:
-	# 					connected_element[j].append(i)
-	# 					break
-	# 	for i in range(len(connected_element)):
-	# 		if i==0:
-	# 			mx = len(connected_element[0])
-	# 			index = 0
-	# 		if len(connected_element[i])>mx:
-	# 			mx = len(connected_element[0])
-	# 			index = i
-
-	# 	X = X[connected_element[index]]
-	# 	kmin = 5
-	# 	nbrs = NearestNeighbors(n_neighbors=kmin, metric='euclidean', n_jobs=-1).fit(X)
-	# 	knn = nbrs.kneighbors_graph(X, mode='distance')
-	# 	connected_components = sp.csgraph.connected_components(knn, directed=False)[0]
-	# 	while connected_components is not 1:
-	# 		kmin += 2
-	# 		nbrs = NearestNeighbors(n_neighbors=kmin, metric='euclidean', n_jobs=-1).fit(X)
-	# 		knn = nbrs.kneighbors_graph(X, mode='distance')
-	# 		connected_components = sp.csgraph.connected_components(knn, directed=False)[0]
-
-	# 	dist = sp.csgraph.floyd_warshall(knn, directed=False)
-
-
 	return dist, kmin
+
+def Maximum_connected_subgraph(X, kmax):
+	kmin = 5
+
+	nbrs = NearestNeighbors(n_neighbors=kmin, metric='euclidean', n_jobs=-1).fit(X)
+	knn = nbrs.kneighbors_graph(X, mode='distance')
+	connected_components = sp.csgraph.connected_components(knn, directed=False)[0]
+	not_connected = False
+	index = 0
+
+	while connected_components is not 1:
+		if kmin > np.max((kmax, 0.01*len(X))):
+			not_connected = True
+			break
+		kmin += 2
+		nbrs = NearestNeighbors(n_neighbors=kmin, metric='euclidean', n_jobs=-1).fit(X)
+		knn = nbrs.kneighbors_graph(X, mode='distance')
+		connected_components = sp.csgraph.connected_components(knn, directed=False)[0]
+
+	dist = sp.csgraph.floyd_warshall(knn, directed=False)
+
+	connected_element = []
+	if not_connected:
+		inf_matrix = []
+		
+		for i in range(len(X)):
+			inf_matrix.append(list(chain.from_iterable(np.argwhere(np.isinf(dist[i])))))
+
+		for i in range(len(X)):
+			if i==0:
+				connected_element.append([])
+				connected_element[0].append(i)
+			else:
+				for j in range(len(connected_element)+1):
+					if j == len(connected_element):
+						connected_element.append([])
+						connected_element[j].append(i)
+						break
+					if inf_matrix[i] == inf_matrix[connected_element[j][0]]:
+						connected_element[j].append(i)
+						break
+		for i in range(len(connected_element)):
+			if i==0:
+				mx = len(connected_element[0])
+				index = 0
+			if len(connected_element[i])>mx:
+				mx = len(connected_element[0])
+				index = i
+
+		X = X[connected_element[index]]
+		kmin = 5
+		nbrs = NearestNeighbors(n_neighbors=kmin, metric='euclidean', n_jobs=-1).fit(X)
+		knn = nbrs.kneighbors_graph(X, mode='distance')
+		connected_components = sp.csgraph.connected_components(knn, directed=False)[0]
+		while connected_components is not 1:
+			kmin += 2
+			nbrs = NearestNeighbors(n_neighbors=kmin, metric='euclidean', n_jobs=-1).fit(X)
+			knn = nbrs.kneighbors_graph(X, mode='distance')
+			connected_components = sp.csgraph.connected_components(knn, directed=False)[0]
+		
+		dist = sp.csgraph.floyd_warshall(knn, directed=False)
+	
+	return not_connected, connected_element, index
 
 def euclidean_distances(data):
 	row, col = np.shape(data)
