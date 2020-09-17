@@ -94,7 +94,7 @@ The list of parameters is given below:
 > + ```rho```: training damping term (default=10).
 > + ```delay```: delay steps of alpha (default=0).
 > + ```beta```: trade-off parameter of structure preserving and point matching (default=1).
-> + ```kmax```: maximum value of knn when constructing geodesic distance matrix (default=20).
+> + ```kmax```: maximum value of knn when constructing geodesic distance matrix (default=40).
 > + ```output_dim```: output dimension of integrated data (default=32).
 
 The other parameters include:
