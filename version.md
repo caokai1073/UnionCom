@@ -11,3 +11,8 @@
 ## version 0.2.1 
 + Separate "test_label_transfer_accuracy" function from "fit_transform" function
 + fix some bugs
+
+## v0.2.2
++ Fix some bugs;
++ Change function "PCA_visualize" to "Visualize", and provide PCA, TSNE and UMAP for visulalization;
++ Add a function to find maximum connected subgraph;
