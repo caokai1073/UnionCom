@@ -1,6 +1,6 @@
 + The full data is in the links https://drive.google.com/drive/folders/1SMexG_zTZUr5Vt9Ua9_NMngunfwUpdK6?usp=sharing
 
-We obtained the scNMT-seq data "gastrulation_scnmt_mofa.RData" from ftp://ftp.ebi.ac.uk/pub/databases/scnmt_gastrulation. We are grateful to Dr. Stephen Clark for providing the parsed data. But it seems that they have updated their data in this link. So I attach the origin  "gastrulation_scnmt_mofa.RData"  data in google drive above. ("gastrulation_scnmt_mofa.RData"). 
+We obtained the scNMT-seq data "gastrulation_scnmt_mofa.RData" from ftp://ftp.ebi.ac.uk/pub/databases/scnmt_gastrulation. We are grateful to Dr. Stephen Clark for providing the parsed data. But it seems that they have updated their data in this link. So I attach the origin  "gastrulation_scnmt_mofa.RData"  data in google drive. ("gastrulation_scnmt_mofa.RData"). 
 
 Data pre-proecessing: We use the Promoter accessibility (1940 cells with 2500 features), Promoter methylation (1940 cells with 2500 features) and RNA expression (1940 cells with 5000 features) in MOFAmodel/data/ of gastrulation_scnmt_mofa.RData. (See "Promoter_accessibility.txt, Promoter_methylation.txt, RNA.txt")
 
