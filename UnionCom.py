@@ -145,48 +145,56 @@ def test_label_transfer_accuracy(integrated_data, datatype):
 	test_UnionCom(integrated_data, datatype)
 
 ### UnionCom simulation
-# data1 = np.loadtxt("./simu2/domain2.txt")
-# data2 = np.loadtxt("./simu2/domain1.txt")
-# type1 = np.loadtxt("./simu2/type2.txt")
-# type2 = np.loadtxt("./simu2/type1.txt")
-#-------------------------------------------------
+# data1 = np.loadtxt("./simu1/domain1.txt")
+# data2 = np.loadtxt("./simu1/domain2.txt")
+# type1 = np.loadtxt("./simu1/type1.txt")
+# type2 = np.loadtxt("./simu1/type2.txt")
+#-------------------------------------------------------
+
 ### MMD-MA simulation
 # data1 = np.loadtxt("./MMD/s3_mapped1.txt")
 # data2 = np.loadtxt("./MMD/s3_mapped2.txt")
 # type1 = np.loadtxt("./MMD/s3_type1.txt")
 # type2 = np.loadtxt("./MMD/s3_type2.txt")
-#-------------------------------------------------
+#-------------------------------------------------------
+
 ### scGEM data
 # data1 = np.loadtxt("./scGEM/GeneExpression.txt")
 # data2 = np.loadtxt("./scGEM/DNAmethylation.txt")
 # type1 = np.loadtxt("./scGEM/type1.txt")
 # type2 = np.loadtxt("./scGEM/type2.txt")
-#-------------------------------------------------
+#-------------------------------------------------------
+
 ### scNMT data
-# data1 = np.loadtxt("./scNMT/Paccessibility_300.txt")
-# data2 = np.loadtxt("./scNMT/Pmethylation_300.txt")
-# data3 = np.loadtxt("./scNMT/RNA_300.txt")
-# type1 = np.loadtxt("./scNMT/type1.txt")
-# type2 = np.loadtxt("./scNMT/type2.txt")
-# type3 = np.loadtxt("./scNMT/type3.txt")
+data1 = np.loadtxt("./scNMT/Paccessibility_300.txt")
+data2 = np.loadtxt("./scNMT/Pmethylation_300.txt")
+data3 = np.loadtxt("./scNMT/RNA_300.txt")
+type1 = np.loadtxt("./scNMT/type1.txt")
+type2 = np.loadtxt("./scNMT/type2.txt")
+type3 = np.loadtxt("./scNMT/type3.txt")
 
-# not_connected, connect_element, index = Maximum_connected_subgraph(data3, params.kmax)
+dist_tmp, k_tmp, not_connected, connect_element, index = Maximum_connected_subgraph(data3, params.kmax)
 
-# if not_connected:
-# 	data3 = data3[connect_element[index]]
-# 	type3 = type3[connect_element[index]]
+if not_connected:
+	data3 = data3[connect_element[index]]
+	type3 = type3[connect_element[index]]
 
-# min_max_scaler = preprocessing.MinMaxScaler()
-# data3 = min_max_scaler.fit_transform(data3)
-# print(np.shape(data3))
-#-------------------------------------------------
+min_max_scaler = preprocessing.MinMaxScaler()
+data3 = min_max_scaler.fit_transform(data3)
+print(np.shape(data3))
+#-------------------------------------------------------
 
 # type1 = type1.astype(np.int)
 # type2 = type2.astype(np.int)
-# type3 = type3.astype(np.int)
-
 # datatype = [type1,type2]
-
 # inte = fit_transform([data1,data2])
 # test_label_transfer_accuracy(inte, datatype)
 # Visualize([data1,data2], inte, datatype, mode='PCA')
+
+type1 = type1.astype(np.int)
+type2 = type2.astype(np.int)
+type3 = type3.astype(np.int)
+datatype = [type1,type2,type3]
+inte = fit_transform([data1,data2,data3])
+test_label_transfer_accuracy(inte, datatype)
+Visualize([data1,data2,data3], inte, datatype, mode='UMAP')
