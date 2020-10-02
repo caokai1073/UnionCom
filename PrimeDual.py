@@ -47,7 +47,7 @@ def cor_pairs_match(Kx, Ky, N, params, p1, p2, device):
 		Mu = Mu + params.epsilon*(torch.mm(F,In) - Im)
 		Lambda = Lambda + params.epsilon*(torch.mm(torch.t(F), Im) - In + S)
 
-		#### if scaling factor a changes too fast, we can delay the update of speed.
+		#### if scaling factor changes too fast, we can delay the update
 		if i>=params.delay:
 			a = torch.trace(torch.mm(Kx, torch.mm(torch.mm(F, Ky), torch.t(F)))) / \
 			torch.trace(torch.mm(Kx, Kx))
