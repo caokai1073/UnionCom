@@ -15,6 +15,6 @@ After that, the input matrices become 612\times 300 for accessibility, 709\times
 2) We used a MinMaxScaler normalization for RNA expression data. (line 179-180 in attached "UnionCom.py")
 The result of alignment are shown in "result/". 
 
-In the original version, we did not use MOFA's built-in methods for preprocessing data, but we find it is a more efficient way. The "Eaccess_MOFA.txt" and "Emethy_MOFA.txt" in Github are preprocessed by MOFA built-in methods.  The numbers in "type1.txt" and "type2.txt" mean different cell stages. ''0" represents "E5.5", '1" represents "E6.5".'2" represents "E7.5" (See "proecess.py" for the generation of "type1.txt" and "type2.txt").
+In the original version, we did not use MOFA's built-in methods for preprocessing data, but we found it is a more efficient way. The "Eaccess_MOFA.txt" and "Emethy_MOFA.txt" in Github were preprocessed by MOFA built-in methods.  The numbers in "type1.txt" and "type2.txt" mean different cell stages. ''0" represents "E5.5", '1" represents "E6.5".'2" represents "E7.5" (See "proecess.py" for the generation of "type1.txt" and "type2.txt").
 
 In the scNMT-seq data we obtained, the authors of scNMT-seq paper did not provide the "E4.5" data. But they have already updated new data. According to my observation, the RNA expression is the most difficult to match.
