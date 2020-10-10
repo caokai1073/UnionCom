@@ -84,7 +84,7 @@ type_N = type_N.astype(np.int)
 
 
 UnionCom.Visualize([data_0, ..., data_N], integrated_data, mode='PCA') # without datatype
-UnionCom.Visualize([data_0, ..., data_N], integrated_data, [type_0,...,type_N], mode='PCA) # with datatype
+UnionCom.Visualize([data_0, ..., data_N], integrated_data, [type_0,...,type_N], mode='PCA') # with datatype
 ```
 
 ## Parameters of ```UnionCom.fit_transform```
