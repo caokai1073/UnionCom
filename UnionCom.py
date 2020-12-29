@@ -173,7 +173,7 @@ type1 = np.loadtxt("./scNMT/type1.txt")
 type2 = np.loadtxt("./scNMT/type2.txt")
 type3 = np.loadtxt("./scNMT/type3.txt")
 
-dist_tmp, k_tmp, not_connected, connect_element, index = Maximum_connected_subgraph(data3, params.kmax)
+not_connected, connect_element, index = Maximum_connected_subgraph(data3, params.kmax)
 
 if not_connected:
 	data3 = data3[connect_element[index]]
