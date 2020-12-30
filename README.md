@@ -13,7 +13,7 @@ numpy 1.17.3
 torch 1.3.0  
 torchvision 0.4.1  
 scikit-learn 0.21.3  
-umap-learn = 0.3.10
+umap-learn 0.3.10
 
 ## Install
 UnionCom software is available on the Python package index (PyPI), latest version 0.2.1. To install it using pip, simply type:
