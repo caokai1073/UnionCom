@@ -78,8 +78,8 @@ The other parameters include:
 > + ```log_pd```: log step of Prime Dual (default=1000).
 > + ```log_DNN```: log step of training DNN (default=10).
 > + ```manual_seed```: random seed (default=666).
-> + ```distance```: mode of distance. ['geodesic' (suggested for multimodal integration), 'euclidean'(suggested for batch correction)] (default='geodesic').
-> + ```project```: mode of project, ['tsne', 'barycentric'] (default='tsne').
+> + ```distance_mode```: mode of distance. ['geodesic' (suggested for multimodal integration), 'euclidean'(suggested for batch correction)] (default='geodesic').
+> + ```project_mode```: mode of project, ['tsne', 'barycentric'] (default='tsne').
 
 
 
