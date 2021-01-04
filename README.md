@@ -73,8 +73,6 @@ The list of parameters is given below:
 > + ```output_dim```: output dimension of integrated data (default=32).
 
 The other parameters include:
-> + ```dataset```: list of datasets to be integrated. [dataset1, dataset2, ...].
-> + ```datatype```: list of data type. [datatype1, datatype2, ...].
 > + ```log_pd```: log step of Prime Dual (default=1000).
 > + ```log_DNN```: log step of training DNN (default=10).
 > + ```manual_seed```: random seed (default=666).
