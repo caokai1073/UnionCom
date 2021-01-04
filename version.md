@@ -16,3 +16,7 @@
 + Fix some bugs;
 + Change function "PCA_visualize" to "Visualize", and provide PCA, TSNE and UMAP for visulalization;
 + Add a function to find maximum connected subgraph;
+
+## v0.3.0
++ Add more comments and make the software easier to understand;
++ Fix some bugs;
