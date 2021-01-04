@@ -28,16 +28,17 @@ pip3 install unioncom
 
 ## Examples (jupyter notebook)
 
-+ [Integration of simulations in UnionCom paper](https://github.com/caokai1073/UnionCom/blob/master/Examples/Simulation_example.ipynb)
++ [Integration of simulation 1 in UnionCom paper](https://github.com/caokai1073/UnionCom/blob/master/Examples/Simulation1.ipynb)
 
-+ [Integration of simulations in MMD-MA paper](https://github.com/caokai1073/UnionCom/blob/master/Examples/Simulation_data_from_MMD-MA.ipynb)
++ [Integration of simulation 2 in UnionCom paper](https://github.com/caokai1073/UnionCom/blob/master/Examples/Simulation2.ipynb)
 
-+ [Batch correction](https://github.com/caokai1073/UnionCom/blob/master/Examples/Batch_correction_example.ipynb)
++ [Integration of simulations in MMD-MA paper](https://github.com/caokai1073/UnionCom/blob/master/Examples/MMD-MA-simulations.ipynb)
 
-+ [Integration of multi-omics data](https://github.com/caokai1073/UnionCom/blob/master/Examples/scGEM_and_scNMT_example.ipynb)
++ [Batch correction](https://github.com/caokai1073/UnionCom/blob/master/Examples/HSC.ipynb)
 
-+ [Integration of datasets with specific cells](https://github.com/caokai1073/UnionCom/blob/master/Examples/dataset-specific_example.ipynb)
++ [Integration of scGEM data](https://github.com/caokai1073/UnionCom/blob/master/Examples/scGEM.ipynb)
 
++ [Integration of scNMT data](https://github.com/caokai1073/UnionCom/blob/master/Examples/scNMT.ipynb)
 
 Each row should contain the measured values for a single cell, and each column should contain the values of a feature across cells.
 ```data_0.txt, ... ,data_N.txt``` to be integrated, use
