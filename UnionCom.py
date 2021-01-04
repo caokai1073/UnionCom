@@ -50,19 +50,20 @@ class UnionCom(object):
 
 	Functions:
 	-----------------------------
-	fit_transform(dataset)								find correspondence between datasets, 
-														align multi-omics data in a common embedded space
-	match(data)											find correspondence between datasets
-	Prime_Dual(Kx, Ky, dx, dy)							Prime dual algorithm to find the optimal match
-	project_barycentric(dataset, match_result)			barycentric projection (from SCOT)
+	fit_transform(dataset)					find correspondence between datasets, 
+								align multi-omics data in a common embedded space
+	match(data)						find correspondence between datasets
+	Prime_Dual(Kx, Ky, dx, dy)				Prime dual algorithm to find the optimal match
+	project_barycentric(dataset, match_result)		barycentric projection (from SCOT)
 	project_tsne(dataset, pairs_x, pairs_y, P_joint)	tsne-based projection
 	Visualize(data, integrated_data, datatype, mode)	Visualization
-	test_labelTA(integrated_data, datatype) 			test label transfer accuracy
+	test_labelTA(integrated_data, datatype) 		test label transfer accuracy
 	-----------------------------
 
 	Examples:
 	-----------------------------
 	input: numpy arrays with rows corresponding to samples and columns corresponding to features
+	output: integrated numpy arrays
 	>>> data1 = np.loadtxt("./simu1/domain1.txt")
 	>>> data2 = np.loadtxt("./simu1/domain2.txt")
 	>>> type1 = np.loadtxt("./simu1/type1.txt")
