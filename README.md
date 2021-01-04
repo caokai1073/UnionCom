@@ -44,39 +44,20 @@ Each row should contain the measured values for a single cell, and each column s
 ```data_0.txt, ... ,data_N.txt``` to be integrated, use
 
 ```python
-from unioncom import UnionCom
-import numpy as np
+>>> from unioncom import UnionCom
+>>> import numpy as np
+>>> data1 = np.loadtxt("./simu1/domain1.txt")
+>>> data2 = np.loadtxt("./simu1/domain2.txt")
+>>> type1 = np.loadtxt("./simu1/type1.txt")
+>>> type2 = np.loadtxt("./simu1/type2.txt")
+>>> type1 = type1.astype(np.int)
+>>> type2 = type2.astype(np.int)
+>>> uc = UnionCom.UnionCom()
+>>> integrated_data = uc.fit_transform(dataset=[data1,data2])
+>>> uc.test_labelTA(integrated_data, [type1,type2])
 
-data_0 = np.loadtxt("data_0.txt")
-...
-data_N = np.loadtxt("data_N.txt")
-
-integrated_data = UnionCom.fit_transform([data_0, ..., data_N])
-
-matched_data_0 = integrated_data[0]
-...
-matched_data_N = integrated_data[N]
-```
-
-## Test label transfer accuracy
-To test the label transfer accuracy, you need to input cell types of ```data_0.txt, ... ,data_N.txt``` as ```type_0.txt, ... ,type_N.txt```
-```python
-type_0 = np.loadtxt("type_0.txt")
-...
-type_N = np.loadtxt("type_N.txt")
-
-UnionCom.test_label_transfer_accuracy(integrated_data, [type_0,...,type_N])
-```
-
-## Visualization by PCA
-```python
-type_0 = type_0.astype(np.int)
-...
-type_N = type_N.astype(np.int)
-
-
-UnionCom.Visualize([data_0, ..., data_N], integrated_data, mode='PCA') # without datatype
-UnionCom.Visualize([data_0, ..., data_N], integrated_data, [type_0,...,type_N], mode='PCA') # with datatype
+>>> uc.Visualize([data1,data2], integrated_data, mode='PCA') # without datatype
+>>> uc.Visualize([data1,data2], integrated_data, [type1,type2], mode='PCA') # with datatype
 ```
 
 ## Parameters of ```UnionCom.fit_transform```
