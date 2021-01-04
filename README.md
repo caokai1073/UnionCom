@@ -39,7 +39,6 @@ pip3 install unioncom
 + [Integration of datasets with specific cells](https://github.com/caokai1073/UnionCom/blob/master/Examples/dataset-specific_example.ipynb)
 
 
-## Integrate data
 Each row should contain the measured values for a single cell, and each column should contain the values of a feature across cells.
 ```data_0.txt, ... ,data_N.txt``` to be integrated, use
 
