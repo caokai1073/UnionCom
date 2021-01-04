@@ -3,7 +3,7 @@
 ## Paper
 [Unsupervised Topological Alignment for Single-Cell Multi-Omics Integration](https://academic.oup.com/bioinformatics/article/36/Supplement_1/i48/5870490)
 
-+ Corrigendum: In the above paper, <a href="https://www.codecogs.com/eqnedit.php?latex=1_{n_x\times&space;n_y}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?1_{n_x\times&space;n_y}" title="1_{n_x\times n_y}" /></a> on Pages i50 and i51 should be corrected as <a href="https://www.codecogs.com/eqnedit.php?latex=1_{n_x\times&space;n_x}" target="_blank"><img src="https://latex.codecogs.com/gif.latex?1_{n_x\times&space;n_x}" title="1_{n_x\times n_x}" /></a>. The authors thank Dr. Chanwoo park from Seoul National University for pointing out this typo.
++ Corrigendum: In the above paper, $1_{n_x\times n_y}$ on Pages i50 and i51 should be corrected as $1_{n_x\times n_x}$. The authors thank Dr. Chanwoo park from Seoul National University for pointing out this typo.
 
 ## Enviroment
 Ubuntu 18.04.3 LTS  
@@ -22,18 +22,9 @@ pip3 install unioncom
 ```
 
 ## Change Log
-### v0.2.2
-+ Fix some bugs
-+ Change function "PCA_visualize" to "Visualize", and provide PCA, TSNE and UMAP for visulalization
-+ Add a function to find maximum connected subgraph
-
-### v0.2.1
-+ Software optimization
-+ Split function "train" into functions "Match" and "Project"
-+ Use Kuhn-Munkres algorithm to find optimal pairs between datasets instead of parbabilistic matrix matching
-+ Add a new parameter "project" to provide options for barycentric projection
-+ Separate "test_label_transfer_accuracy" function from "fit_transform" function
-+ fix some bugs
+### v0.3.0
++ Add more comments and make the software easier to understand;
++ Fix some bugs;
 
 ## Examples (jupyter notebook)
 
