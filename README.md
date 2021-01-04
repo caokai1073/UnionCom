@@ -54,7 +54,7 @@ Each row should contain the measured values for a single cell, and each column s
 >>> type2 = type2.astype(np.int)
 >>> uc = UnionCom.UnionCom()
 >>> integrated_data = uc.fit_transform(dataset=[data1,data2])
->>> uc.test_labelTA(integrated_data, [type1,type2])
+>>> uc.test_LabelTA(integrated_data, [type1,type2])
 
 >>> uc.Visualize([data1,data2], integrated_data, mode='PCA') # without datatype
 >>> uc.Visualize([data1,data2], integrated_data, [type1,type2], mode='PCA') # with datatype
