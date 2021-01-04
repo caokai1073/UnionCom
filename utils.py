@@ -42,13 +42,6 @@ def save_model(net, model_root, filename):
 	torch.save(net.state_dict(), os.path.join(model_root, filename))
 	print("save pretrained model to: {}".format(os.path.join(model_root, filename)))
 
-#-||x_i-x_j||^2
-# def neg_squared_euc_dists(X):
-#     sum_X = np.sum(np.square(X), 1)
-#     D = np.add(np.add(-2 * np.dot(X, X.T), sum_X).T, sum_X)
-
-#     return -D
-
 #input -||x_i-x_j||^2/2*sigma^2, compute softmax
 def softmax(D, diag_zero=True):
 	# e_x = np.exp(D)
@@ -109,11 +102,18 @@ def p_joint(X, target_perplexity):
     P = p_conditional_to_joint(p_conditional)
     return P
 
-def q_tsne(Y):	
-	distances = neg_squared_euc_dists(Y)
-	inv_distances = np.power(1. - distances, -1)
-	np.fill_diagonal(inv_distances, 0)	
-	return inv_distances / np.sum(inv_distances)
+def neg_square_dists(X):
+	sum_X = torch.sum(X*X, 1)
+	tmp = torch.add(-2 * X.mm(torch.transpose(X,1,0)), sum_X)
+	D = torch.add(torch.transpose(tmp,1,0), sum_X)
+	return -D
+
+def Q_tsne(Y):
+	distances = neg_square_dists(Y)
+	inv_distances = torch.pow(1. - distances, -1)
+	inv_distances = inv_distances - torch.diag(inv_distances.diag(0))
+	inv_distances = inv_distances + 1e-15
+	return inv_distances / torch.sum(inv_distances)
 
 def geodesic_distances(X, kmax):
 	kmin = 5
