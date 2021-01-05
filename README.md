@@ -59,7 +59,7 @@ Each row should contain the measured values for a single cell, and each column s
 >>> uc.Visualize([data1,data2], integrated_data, [type1,type2], mode='PCA') # with datatype
 ```
 
-## Parameters of ```UnionCom```
+## Parameters of ```class UnionCom```
 
 The list of parameters is given below:
 > + ```epoch_pd```: epoch of Prime-dual algorithm (default=20000).
