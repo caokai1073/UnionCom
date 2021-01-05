@@ -6,7 +6,6 @@
 + Corrigendum: In the above paper, $1_{n_x\times n_y}$ on Pages i50 and i51 should be corrected as $1_{n_x\times n_x}$. The authors thank Dr. Chanwoo park from Seoul National University for pointing out this typo.
 
 ## Enviroment
-Ubuntu 18.04.3 LTS  
 python >= 3.6
 
 numpy 1.17.3  
