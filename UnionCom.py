@@ -64,13 +64,15 @@ class UnionCom(object):
 	-----------------------------
 	input: numpy arrays with rows corresponding to samples and columns corresponding to features
 	output: integrated numpy arrays
+	>>> from unioncom import UnionCom
+	>>> import numpy as np
 	>>> data1 = np.loadtxt("./simu1/domain1.txt")
 	>>> data2 = np.loadtxt("./simu1/domain2.txt")
 	>>> type1 = np.loadtxt("./simu1/type1.txt")
 	>>> type2 = np.loadtxt("./simu1/type2.txt")
 	>>> type1 = type1.astype(np.int)
 	>>> type2 = type2.astype(np.int)
-	>>> uc = UnionCom()
+	>>> uc = UnionCom.UnionCom()
 	>>> integrated_data = uc.fit_transform(dataset=[data1,data2])
 	>>> uc.test_labelTA(integrated_data, [type1,type2])
 	>>> uc.Visualize([data1,data2], integrated_data, [type1,type2], mode='PCA')
