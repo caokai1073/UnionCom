@@ -80,5 +80,5 @@ The other parameters include:
 > + ```distance_mode```: mode of distance. ['geodesic' (suggested for multimodal integration), 'euclidean'(suggested for batch correction)] (default='geodesic').
 > + ```project_mode```: mode of project, ['tsne', 'barycentric'] (default='tsne').
 
-
+### Contact via caokai@amss.ac.cn
 
