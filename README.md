@@ -41,7 +41,6 @@ pip3 install unioncom
 + [Integration of scNMT data](https://github.com/caokai1073/UnionCom/blob/master/Examples/scNMT.ipynb)
 
 Each row should contain the measured values for a single cell, and each column should contain the values of a feature across cells.
-```data_0.txt, ... ,data_N.txt``` to be integrated, use
 
 ```python
 >>> from unioncom import UnionCom
