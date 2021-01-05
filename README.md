@@ -34,7 +34,7 @@ pip3 install unioncom
 
 + [Integration of simulations in MMD-MA paper](https://github.com/caokai1073/UnionCom/blob/master/Examples/MMD-MA-simulations.ipynb)
 
-+ [Batch correction](https://github.com/caokai1073/UnionCom/blob/master/Examples/HSC.ipynb)
++ [Batch correction of HSC data](https://github.com/caokai1073/UnionCom/blob/master/Examples/HSC.ipynb)
 
 + [Integration of scGEM data](https://github.com/caokai1073/UnionCom/blob/master/Examples/scGEM.ipynb)
 
