@@ -10,7 +10,7 @@ def visualize(data, data_integrated, datatype=None, mode='PCA'):
 
     dataset_num = len(data)
 
-    styles = ['g', 'r', 'b', 'y', 'k', 'm', 'c', 'greenyellow', 'lightcoral', 'teal'] 
+    # styles = ['g', 'r', 'b', 'y', 'k', 'm', 'c', 'greenyellow', 'lightcoral', 'teal'] 
     # data_map = ['Chromatin accessibility', 'DNA methylation', 'Gene expression']
     # color_map = ['E5.5','E6.5','E7.5']
     embedding = []
@@ -30,7 +30,7 @@ def visualize(data, data_integrated, datatype=None, mode='PCA'):
             plt.subplot(1,dataset_num,i+1)
             for j in set(datatype[i]):
                 index = np.where(datatype[i]==j) 
-                plt.scatter(embedding[i][index,0], embedding[i][index,1], c=styles[j], s=5.)
+                plt.scatter(embedding[i][index,0], embedding[i][index,1], s=5.)
             plt.title(dataset_xyz[i])
             if mode=='PCA':
                 plt.xlabel('PCA-1')
@@ -42,11 +42,10 @@ def visualize(data, data_integrated, datatype=None, mode='PCA'):
                 plt.xlabel('UMAP-1')
                 plt.ylabel('UMAP-2')
             # plt.title(data_map[i])
-            plt.legend()
     else:
         for i in range(dataset_num):
             plt.subplot(1,dataset_num,i+1)
-            plt.scatter(embedding[i][:,0], embedding[i][:,1],c=styles[i],  s=5.)
+            plt.scatter(embedding[i][:,0], embedding[i][:,1], s=5.)
             plt.title(dataset_xyz[i])
             if mode=='PCA':
                 plt.xlabel('PCA-1')
@@ -58,7 +57,6 @@ def visualize(data, data_integrated, datatype=None, mode='PCA'):
                 plt.xlabel('UMAP-1')
                 plt.ylabel('UMAP-2')
             plt.title(dataset_xyz[i])
-            plt.legend()
 
     plt.tight_layout()
 
@@ -89,6 +87,10 @@ def visualize(data, data_integrated, datatype=None, mode='PCA'):
     fig = plt.figure()
     if datatype is not None:
 
+        datatype_all = np.hstack((datatype[0], datatype[1]))
+        for i in range(2, dataset_num):
+            datatype_all = np.hstack((datatype_all, datatype[i]))
+
         plt.subplot(1,2,1)
         for i in range(dataset_num):
             plt.scatter(embedding[i][:,0], embedding[i][:,1], c=color[i], s=5., alpha=0.8)
@@ -102,14 +104,12 @@ def visualize(data, data_integrated, datatype=None, mode='PCA'):
         else:
             plt.xlabel('UMAP-1')
             plt.ylabel('UMAP-2')
-        plt.legend()
 
         plt.subplot(1,2,2)
-        for i in range(dataset_num):  
-            for j in set(datatype[i]):
-                index = np.where(datatype[i]==j)  
-                plt.scatter(embedding[i][index,0], embedding[i][index,1], c=styles[j], s=5., alpha=0.8)
-                
+        for j in set(datatype_all):
+            index = np.where(datatype_all==j)  
+            plt.scatter(embedding_all[index,0], embedding_all[index,1], s=5., alpha=0.8)
+            
         plt.title('Integrated Cell Types')
         if mode=='PCA':
             plt.xlabel('PCA-1')
@@ -120,12 +120,11 @@ def visualize(data, data_integrated, datatype=None, mode='PCA'):
         else:
             plt.xlabel('UMAP-1')
             plt.ylabel('UMAP-2')
-        plt.legend()
 
     else:
 
         for i in range(dataset_num):
-            plt.scatter(embedding[i][:,0], embedding[i][:,1], c=styles[i], s=5., alpha=0.8)
+            plt.scatter(embedding[i][:,0], embedding[i][:,1], c=color[i], s=5., alpha=0.8)
         plt.title('Integrated Embeddings')
         if mode=='PCA':
             plt.xlabel('PCA-1')
@@ -136,7 +135,6 @@ def visualize(data, data_integrated, datatype=None, mode='PCA'):
         else:
             plt.xlabel('UMAP-1')
             plt.ylabel('UMAP-2')
-        plt.legend()
 
     plt.tight_layout()
     plt.show()

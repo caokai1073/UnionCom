@@ -5,7 +5,13 @@ import torch.backends.cudnn as cudnn
 import numpy as np
 import scipy.sparse as sp 
 from itertools import chain
+from sklearn.manifold import _utils
+from scipy.spatial.distance import squareform
+from scipy.sparse import csr_matrix, issparse
 from sklearn.neighbors import NearestNeighbors, KNeighborsClassifier
+from sklearn.metrics.pairwise import pairwise_distances
+
+MACHINE_EPSILON = np.finfo(np.double).eps
 
 def init_random_seed(manual_seed):
 	seed = None
@@ -115,6 +121,45 @@ def Q_tsne(Y):
 	inv_distances = inv_distances + 1e-15
 	return inv_distances / torch.sum(inv_distances)
 
+
+def joint_probabilities(distances, desired_perplexity, verbose=0):
+    """Compute joint probabilities p_ij from distances.
+
+    Parameters
+    ----------
+    distances : array, shape (n_samples * (n_samples-1) / 2,)
+        Distances of samples are stored as condensed matrices, i.e.
+        we omit the diagonal and duplicate entries and store everything
+        in a one-dimensional array.
+
+    desired_perplexity : float
+        Desired perplexity of the joint probability distributions.
+
+    verbose : int
+        Verbosity level.
+
+    Returns
+    -------
+    P : array, shape (n_samples * (n_samples-1) / 2,)
+        Condensed joint probability matrix.
+    """
+    # Compute conditional probabilities such that they approximately match
+    # the desired perplexity
+    distances = distances.astype(np.float32, copy=False)
+
+    conditional_P = _utils._binary_search_perplexity(
+        distances, desired_perplexity, verbose)
+
+    P = conditional_P + conditional_P.T
+
+
+    sum_P = np.maximum(np.sum(P), MACHINE_EPSILON)
+
+    # P = np.maximum(squareform(P) / sum_P, MACHINE_EPSILON)
+    P = np.maximum(P / sum_P, MACHINE_EPSILON)
+
+    return P
+
 def geodesic_distances(X, kmax):
 	kmin = 5
 	nbrs = NearestNeighbors(n_neighbors=kmin, metric='euclidean', n_jobs=-1).fit(X)
@@ -133,7 +178,7 @@ def geodesic_distances(X, kmax):
 	dist_max = np.nanmax(dist[dist != np.inf])
 	dist[dist > dist_max] = 2*dist_max
 
-	return dist, kmin
+	return dist
 
 def Maximum_connected_subgraph(X, kmax):
 	kmin = 5
