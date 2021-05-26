@@ -8,10 +8,11 @@
 ## Enviroment
 python >= 3.6
 
-numpy 1.17.3  
-torch 1.3.0  
+numpy 1.19.5  
+torch 1.7.0  
+scipy 1.4.1
 torchvision 0.4.1  
-scikit-learn 0.21.3  
+scikit-learn 0.23.2  
 umap-learn 0.3.10
 
 ## Install
@@ -61,14 +62,15 @@ Each row should contain the measured values for a single cell, and each column s
 ## Parameters of ```class UnionCom```
 
 The list of parameters is given below:
-> + ```epoch_pd```: epoch of Prime-dual algorithm (default=20000).
-> + ```epoch_DNN```: epoch of training Deep Neural Network (default=200).
-> + ```epsilon```: training rate of data matching matrix F (default=0.001).
+> + ```epoch_pd```: epoch of Prime-dual algorithm (default=2000).
+> + ```epoch_DNN```: epoch of training Deep Neural Network (default=100).
+> + ```epsilon```: training rate of data matching matrix F (default=0.01).
 > + ```lr```: training rate of DNN (default=0.001).
 > + ```batch_size```: training batch size of DNN (default=100).
 > + ```rho```: training damping term (default=10).
 > + ```delay```: delay steps of alpha (default=0).
 > + ```beta```: trade-off parameter of structure preserving and point matching (default=1).
+> + ```perplexity```: perplexity of tsne projection (default=30)
 > + ```kmax```: maximum value of knn when constructing geodesic distance matrix (default=40).
 > + ```output_dim```: output dimension of integrated data (default=32).
 
@@ -78,6 +80,7 @@ The other parameters include:
 > + ```manual_seed```: random seed (default=666).
 > + ```distance_mode```: mode of distance. ['geodesic' (suggested for multimodal integration), 'euclidean'(suggested for batch correction)] (default='geodesic').
 > + ```project_mode```: mode of project, ['tsne', 'barycentric'] (default='tsne').
+> + ```integration_type```: "MultiOmics" or "BatchCorrect". "BatchCorrect" needs aligned features. (default='MultiOmics')
 
 ### Contact via caokai@amss.ac.cn
 
