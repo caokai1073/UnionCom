@@ -23,7 +23,7 @@ pip3 install unioncom
 
 ## Change Log
 ### v0.4.0
-+ Add batch effect correct method by set integration_type="BatchCorrect";
++ Add batch effect correction method by setting integration_type="BatchCorrect";
 + Add more distances (e.g. cosine, cityblock, see sklearn.metrics.pairwise) to formulate distance matrices. 
 + Fix some bugs;
 
