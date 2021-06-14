@@ -16,7 +16,7 @@ scikit-learn 0.23.2
 umap-learn 0.3.10
 
 ## Install
-UnionCom software is available on the Python package index (PyPI), latest version 0.2.1. To install it using pip, simply type:
+UnionCom software is available on the Python package index (PyPI), latest version 0.4.0. To install it using pip, simply type:
 ```
 pip3 install unioncom
 ```
