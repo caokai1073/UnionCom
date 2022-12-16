@@ -82,5 +82,5 @@ The other parameters include:
 > + ```project_mode```: mode of project, ['tsne', 'barycentric'] (default='tsne').
 > + ```integration_type```: "MultiOmics" or "BatchCorrect". "BatchCorrect" needs aligned features. (default='MultiOmics')
 
-### Contact via caokai@amss.ac.cn
+### Contact via caokai1073@gmail.com
 
