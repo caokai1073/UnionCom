@@ -1,6 +1,6 @@
 '''
 ---------------------
-UnionCom fucntions
+UnionCom functions
 author: Kai Cao
 e-mail:caokai@amss.ac.cn
 MIT LICENSE
