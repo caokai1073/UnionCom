@@ -1,4 +1,5 @@
 # UnionCom
+### We release new version [UnionCom2](https://github.com/caokai1073/UnionCom2) with fast and efficient implementation
 
 ## Paper
 [Unsupervised Topological Alignment for Single-Cell Multi-Omics Integration](https://academic.oup.com/bioinformatics/article/36/Supplement_1/i48/5870490)
